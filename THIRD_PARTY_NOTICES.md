@@ -21,10 +21,9 @@ inventory if the tool or license changes.
 
 ## Referenced CI actions
 
-The local-only workflow references, but does not vendor or include in the
+The GitHub Actions workflow references, but does not vendor or include in the
 wheel or source distribution, `actions/checkout` v7.0.1 at immutable commit
 `3d3c42e5aac5ba805825da76410c181273ba90b1` and `actions/setup-python` v7.0.0
 at immutable commit `5fda3b95a4ea91299a34e894583c3862153e4b97`. The reviewed
-upstream action releases are MIT licensed. These references remain inactive
-until an authorized push, and their versions, commits, licenses, and hosted
-behavior must be rechecked before the first run.
+upstream action releases are MIT licensed. Their versions, commits, and
+licenses must be rechecked when the workflow pins are updated.

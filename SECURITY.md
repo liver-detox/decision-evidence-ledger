@@ -2,15 +2,14 @@
 
 ## Current support status
 
-Version `0.1.0.dev0` is a local development candidate. There is no published
-release and no public security-support channel. No response time or remediation
+Version `0.1.0.dev0` is a public development snapshot. There is no formal
+release or private security-support channel. No response time or remediation
 deadline is promised.
 
-Publishing the project is blocked until the maintainer selects and tests a
-private reporting route. After a GitHub repository exists, acceptable options
-include GitHub private vulnerability reporting or another maintainer-controlled
-private channel documented here. This file intentionally contains no invented
-email address or URL.
+The project does not currently offer a private reporting route. A public GitHub
+Issue may be used only for a nonsensitive report that contains no secret,
+private evidence, identifying data, or exploit detail. This file intentionally
+contains no invented email address or URL.
 
 ## What to report privately
 
@@ -32,9 +31,9 @@ brokerage behavior are outside the project because it has no such integration.
 
 Never paste a secret, credential, private key, personal record, account detail,
 real trade, private path, or confidential evidence into a public GitHub Issue,
-Discussion, pull request, log, or screenshot. Use the configured private route
-only after it is published here. Until then, retain the report locally without
-adding sensitive material to this project.
+Discussion, pull request, log, or screenshot. Because no private route is
+currently published, retain any sensitive report locally rather than adding it
+to this project.
 
 A useful private report can describe:
 

@@ -1,14 +1,14 @@
 # Decision Evidence Ledger
 
-Decision Evidence Ledger is a small, local Python library for creating and
+Decision Evidence Ledger is a small Python library for creating and
 checking **digest-only evidence envelopes**. An envelope records identifiers,
 a UTC timestamp, SHA-256 digests, and an optional link to the preceding
 envelope. It does not retain the source payload or metadata inside the
 envelope.
 
-The current version is `0.1.0.dev0`. It is a local development candidate: it
-has not been published, and there is no verified evidence of users, downloads,
-external adoption, or production use.
+The current version is `0.1.0.dev0`. This repository is an early public
+development snapshot, not a formal package release. There is no verified
+evidence of users, downloads, external adoption, or production use.
 
 ## What problem does it address?
 
@@ -64,12 +64,13 @@ The package uses only the Python standard library at runtime. Its local build
 configuration uses `setuptools`; the development-tool inventory is not yet
 final.
 
-## Local provenance record
+## Provenance record
 
-`PROVENANCE.json` is a maintainer-provided statement of each local candidate
-path's origin and local-candidate inclusion decision. It is not independent
-proof of rights, ownership, or provenance, and it does not grant publication
-authorization. Publication authorization remains `NOT_GRANTED`.
+`PROVENANCE.json` is a maintainer-provided statement of each source path's
+origin and inclusion decision. It is not independent proof of rights,
+ownership, or provenance. Its authorization is limited to publishing this
+source repository on public GitHub; it does not authorize a version tag,
+hosted release, or package-index upload.
 
 Run `python3 scripts/verify_provenance.py .` only on a clean candidate tree:
 the verifier accepts no cache, build, environment, or other extra files.
@@ -221,31 +222,31 @@ examples, issue reports, identifiers, filenames, or command arguments. Shell
 history and operating-system process inspection can expose command arguments
 and paths even when this program's JSON output does not.
 
-Read [SECURITY.md](SECURITY.md) before reporting a security concern. A private
-reporting channel is a publication gate and has not yet been configured.
+Read [SECURITY.md](SECURITY.md) before reporting a security concern. No private
+reporting channel is currently offered, so never place sensitive details in a
+public report.
 
 ## Project status and participation
 
-This directory is local only. There is no remote repository, public release,
-package-index release, contribution intake, or security-reporting endpoint.
-The project is maintained under the public identity `liver-detox`; no public
-contact data is provided in this local candidate.
+This public source repository is maintained under the public identity
+`liver-detox`. It has no formal GitHub release, package-index release, verified
+adoption, or private security-reporting endpoint.
 
-The reviewed CI workflow is implemented locally in `.github/workflows/ci.yml`,
-but remains inactive until a separately authorized first push. It tests the
-event commit on Python 3.11 through 3.14 with a read-only repository token,
-no configured project secrets, uploads, cache, or deployment steps. Hosted
+The reviewed CI workflow in `.github/workflows/ci.yml` is configured for
+pushes and pull requests. It tests the event commit on Python 3.11 through
+3.14 with a read-only repository token and no configured project secrets,
+uploads, cache, or deployment steps. Hosted
 pull-request code can still execute with network access and can change the
 workflow; the workflow is a project self-test rather than a containment
-boundary. The 41-path provenance statement records a maintainer decision to
-include this local candidate only and does not grant publication authority.
-Future participation rules are described in [CONTRIBUTING.md](CONTRIBUTING.md),
-and the publication gates are in [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md).
+boundary. The 41-path provenance statement authorizes only this public GitHub
+source scope. Participation rules are described in
+[CONTRIBUTING.md](CONTRIBUTING.md), and additional release gates are in
+[RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md).
 
 ## License
 
 Copyright 2026 liver-detox.
 
-This local development candidate is licensed under the Apache License 2.0; see
+This project is licensed under the Apache License 2.0; see
 [LICENSE](LICENSE). Third-party status is recorded in
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

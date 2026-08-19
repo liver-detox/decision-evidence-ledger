@@ -1,7 +1,7 @@
 # Changelog
 
-This file records user-visible project changes. The project is not published,
-so every entry below remains part of local development rather than a public
+This file records user-visible project changes. The source repository is
+public, but every entry below remains development work rather than a formal
 release history.
 
 ## Unreleased
@@ -13,15 +13,14 @@ release history.
 - Local contribution, conduct, security, release-checklist, and release-guide
   documents.
 - A strict source-distribution manifest policy.
-- Alias-only public author and citation metadata, with synchronized local
-  release guidance. This remains local development work, not a public release.
+- Alias-only public author and citation metadata, with synchronized release
+  guidance.
 - A 41-path local provenance ledger, exact source-only policy, and strict
   reduced source-archive completeness verifier. The ledger is a maintainer
-  statement and local-candidate inclusion record, not independent rights proof
-  or publication authorization.
-- A locally implemented, inactive least-privilege CI workflow for Python 3.11
-  through 3.14. Its first hosted run, exact Git archive execution, and all
-  remote/publication actions remain future authorized gates.
+  statement and inclusion record, not independent rights proof.
+- Authorization limited to publishing the reviewed source repository on public
+  GitHub; tags, hosted releases, and package-index uploads remain separate.
+- A least-privilege CI workflow for Python 3.11 through 3.14.
 
 ## 0.1.0.dev0 — local development snapshot
 
@@ -34,4 +33,5 @@ release history.
 - Local `decision-evidence` command-line interface.
 - Standard-library unit tests.
 
-This version has not been released, uploaded, or presented as production-ready.
+This version has not been published as a tagged GitHub release or package-index
+release and is not presented as production-ready.

@@ -101,8 +101,8 @@ def origin_for(path: str) -> str:
 def valid_document() -> dict[str, object]:
     return {
         "schema_version": SCHEMA_VERSION,
-        "candidate_status": "LOCAL_CANDIDATE_ONLY",
-        "publication_authorization": "NOT_GRANTED",
+        "candidate_status": "PUBLIC_GITHUB_SOURCE_AUTHORIZED",
+        "publication_authorization": "GRANTED_FOR_PUBLIC_GITHUB_SOURCE",
         "controller": {
             "public_alias": "liver-detox",
             "development": "LOCAL_AI_ASSISTED",

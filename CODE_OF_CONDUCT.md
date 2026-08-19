@@ -33,7 +33,6 @@ This policy applies in project-managed spaces and when representing the project
 elsewhere. Proportionate responses may include a clarification request, content
 removal, a warning, temporary restriction, or exclusion from project spaces.
 
-There is not yet a public community or private enforcement channel. Selecting
-and documenting a maintainer-controlled private channel is required before the
-repository is made public. Do not place private or identifying details in a
-public Issue or discussion.
+There is no private enforcement channel. Nonsensitive conduct concerns may be
+raised through the public repository. Do not place private or identifying
+details in a public Issue or discussion.

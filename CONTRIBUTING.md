@@ -2,12 +2,10 @@
 
 ## Current state
 
-This project is still a local development candidate. There is no public remote
-repository and no active pull-request intake. A pull request is a proposed
-change submitted through a hosted Git repository; that workflow belongs to a
-future, explicitly authorized publication stage.
+This is an early public development project. Issues and pull requests may be
+submitted on GitHub, but review and response times are not guaranteed.
 
-These rules define the minimum bar for any future contribution.
+These rules define the minimum bar for a contribution.
 
 ## Evidence and privacy rules
 
@@ -29,19 +27,17 @@ Hashing sensitive material does not make it safe to publish. Do not add the
 material or its digest when its presence, format, or guessability could reveal
 private information.
 
-`PROVENANCE.json` is a maintainer statement of origin and local-candidate
-inclusion for each listed path. It is not independent proof of rights and does
-not authorize publication; that authorization remains `NOT_GRANTED`.
+`PROVENANCE.json` is a maintainer statement of origin and inclusion for each
+listed path. It is not independent proof of rights. Its publication
+authorization is limited to this public GitHub source repository.
 
-## Future hosted checks
+## Hosted checks
 
-The local candidate includes a reviewed CI workflow, but it remains inactive
-until an authorized first push. It runs only on a GitHub-hosted runner with a
-read-only repository token and no configured project secrets, uploads, cache,
-deployment, or notification steps. Pull-request code can execute with network
-access on that runner and can modify the proposed workflow or tests, so CI is
-not a containment boundary. Branch protection, workflow review ownership, and
-the first hosted run remain separate future gates.
+The repository includes a reviewed CI workflow for pushes and pull requests.
+It runs on a GitHub-hosted runner with a read-only repository token and no
+configured project secrets, uploads, cache, deployment, or notification steps.
+Pull-request code can execute with network access on that runner and can modify
+the proposed workflow or tests, so CI is not a containment boundary.
 
 ## Local development
 
@@ -94,7 +90,6 @@ for inclusion are handled under the project [LICENSE](LICENSE), unless they are
 conspicuously marked otherwise and separately accepted by the maintainer. No
 separate contributor agreement is currently configured.
 
-The public maintainer identity is `liver-detox`. Contribution intake is not yet
-open. Before it opens, the maintainer must document the review process, private
-security channel, and public contributor identity policy while preserving the
-privacy requirements above.
+The public maintainer identity is `liver-detox`. Contributions are reviewed
+on a best-effort basis. No private security channel is currently promised; do
+not disclose sensitive information in an Issue or pull request.
