@@ -1,0 +1,25 @@
+# Begin from an empty file list so unrelated local material is not added.
+global-exclude *
+
+# Package metadata and explicitly public root documents.
+include MANIFEST.in
+include PROVENANCE.json
+include pyproject.toml
+include CITATION.cff
+include LICENSE
+include README.md
+include SECURITY.md
+include CONTRIBUTING.md
+include CODE_OF_CONDUCT.md
+include CHANGELOG.md
+include RELEASE_CHECKLIST.md
+include THIRD_PARTY_NOTICES.md
+
+# Runtime package and synthetic verification assets.
+recursive-include src/decision_evidence_ledger *.py
+recursive-include tests *.py
+recursive-include examples *.json *.jsonl *.md
+recursive-include scripts *.py
+
+# The source-only CI contract test is deliberately absent from the sdist.
+exclude tests/test_ci_workflow.py

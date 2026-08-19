@@ -1,0 +1,57 @@
+# Security Policy
+
+## Current support status
+
+Version `0.1.0.dev0` is a local development candidate. There is no published
+release and no public security-support channel. No response time or remediation
+deadline is promised.
+
+Publishing the project is blocked until the maintainer selects and tests a
+private reporting route. After a GitHub repository exists, acceptable options
+include GitHub private vulnerability reporting or another maintainer-controlled
+private channel documented here. This file intentionally contains no invented
+email address or URL.
+
+## What to report privately
+
+Examples of relevant security concerns include:
+
+- a way to make modified evidence pass an integrity check;
+- canonicalization differences that create ambiguous digests;
+- parser behavior that exposes input content, filenames, or exception details;
+- chain verification that misses deletion, reordering, duplication, or invalid
+  supersession;
+- packaging that unintentionally includes secrets, private paths, local task
+  records, or source evidence;
+- denial-of-service behavior from a small, validly formed input.
+
+Investment outcomes, market-data correctness, provider availability, and
+brokerage behavior are outside the project because it has no such integration.
+
+## Protect the report itself
+
+Never paste a secret, credential, private key, personal record, account detail,
+real trade, private path, or confidential evidence into a public GitHub Issue,
+Discussion, pull request, log, or screenshot. Use the configured private route
+only after it is published here. Until then, retain the report locally without
+adding sensitive material to this project.
+
+A useful private report can describe:
+
+- the affected version and command or API;
+- a minimal synthetic reproduction;
+- expected and observed diagnostic codes;
+- potential impact;
+- whether the issue is already public.
+
+Use opaque identifiers and synthetic JSON. Do not attach real evidence.
+
+## Security boundary
+
+Decision Evidence Ledger checks deterministic JSON bindings and ledger
+structure. It does not establish factual truth, identity, trusted time,
+authorization, confidentiality, non-repudiation, secure storage, or secure
+deletion. SHA-256 digests are not anonymization. A separately trusted head
+digest is needed to make full-chain replacement detectable.
+
+The project is supplied without warranty under the terms in [LICENSE](LICENSE).
