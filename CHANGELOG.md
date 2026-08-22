@@ -1,10 +1,8 @@
 # Changelog
 
-This file records user-visible project changes. The source repository is
-public, but every entry below remains development work rather than a formal
-release history.
+This file records user-visible project changes.
 
-## Unreleased
+## 0.1.0 — first GitHub source release preparation
 
 ### Added
 
@@ -18,11 +16,9 @@ release history.
 - A 41-path local provenance ledger, exact source-only policy, and strict
   reduced source-archive completeness verifier. The ledger is a maintainer
   statement and inclusion record, not independent rights proof.
-- Authorization limited to publishing the reviewed source repository on public
-  GitHub; tags, hosted releases, and package-index uploads remain separate.
+- Authorization to create the `v0.1.0` tag and hosted GitHub source release;
+  this excludes package-index uploads.
 - A least-privilege CI workflow for Python 3.11 through 3.14.
-
-## 0.1.0.dev0 — local development snapshot
 
 ### Present in the candidate
 
@@ -33,5 +29,8 @@ release history.
 - Local `decision-evidence` command-line interface.
 - Standard-library unit tests.
 
-This version has not been published as a tagged GitHub release or package-index
-release and is not presented as production-ready.
+This release is prepared for the authorized `v0.1.0` tag and hosted GitHub
+source release. Local preparation does not itself create either remote object,
+and no package-index release is authorized. It is not presented as
+production-ready and has no evidence of users, downloads, external adoption,
+or production use.

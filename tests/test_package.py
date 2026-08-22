@@ -16,9 +16,9 @@ class PackageBoundaryTests(unittest.TestCase):
         with (project_root / "pyproject.toml").open("rb") as metadata_file:
             project = tomllib.load(metadata_file)["project"]
 
-        self.assertEqual(decision_evidence_ledger.__version__, "0.1.0.dev0")
+        self.assertEqual(decision_evidence_ledger.__version__, "0.1.0")
         self.assertEqual(project["name"], "decision-evidence-ledger")
-        self.assertEqual(project["version"], "0.1.0.dev0")
+        self.assertEqual(project["version"], "0.1.0")
         self.assertEqual(project["license"], "Apache-2.0")
         self.assertEqual(project["requires-python"], ">=3.11")
         self.assertEqual(project["dependencies"], [])

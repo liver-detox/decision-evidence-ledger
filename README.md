@@ -6,9 +6,11 @@ a UTC timestamp, SHA-256 digests, and an optional link to the preceding
 envelope. It does not retain the source payload or metadata inside the
 envelope.
 
-The current version is `0.1.0.dev0`. This repository is an early public
-development snapshot, not a formal package release. There is no verified
-evidence of users, downloads, external adoption, or production use.
+The current version is `0.1.0`, prepared as the first GitHub source release.
+The `v0.1.0` tag and hosted GitHub source release are authorized, but this
+local preparation does not itself create them. There is no package-index
+release and no verified evidence of users, downloads, external adoption, or
+production use.
 
 ## What problem does it address?
 
@@ -68,9 +70,9 @@ final.
 
 `PROVENANCE.json` is a maintainer-provided statement of each source path's
 origin and inclusion decision. It is not independent proof of rights,
-ownership, or provenance. Its authorization is limited to publishing this
-source repository on public GitHub; it does not authorize a version tag,
-hosted release, or package-index upload.
+ownership, or provenance. Its authorization covers only the `v0.1.0` GitHub
+tag and hosted GitHub source release; it does not authorize a package-index
+upload.
 
 Run `python3 scripts/verify_provenance.py .` only on a clean candidate tree:
 the verifier accepts no cache, build, environment, or other extra files.
@@ -229,8 +231,10 @@ public report.
 ## Project status and participation
 
 This public source repository is maintained under the public identity
-`liver-detox`. It has no formal GitHub release, package-index release, verified
-adoption, or private security-reporting endpoint.
+`liver-detox`. The `v0.1.0` tag and hosted GitHub source release are authorized
+but are not created by local preparation. There is no package-index release,
+verified adoption, or private security-reporting endpoint. Branch protection
+and workflow-review ownership (such as CODEOWNERS) are not currently provided.
 
 The reviewed CI workflow in `.github/workflows/ci.yml` is configured for
 pushes and pull requests. It tests the event commit on Python 3.11 through

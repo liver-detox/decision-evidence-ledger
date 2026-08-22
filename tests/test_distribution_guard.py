@@ -58,7 +58,7 @@ class DistributionGuardTests(unittest.TestCase):
                 "type: software\n"
                 "authors:\n"
                 "  - alias: liver-detox\n"
-                "version: 0.1.0.dev0\n"
+                "version: 0.1.0\n"
                 "license: Apache-2.0\n"
                 "abstract: Digest-only local evidence envelopes and lifecycle/chain consistency checks.\n",
             )
@@ -74,7 +74,7 @@ class DistributionGuardTests(unittest.TestCase):
             b"type: software\n"
             b"authors:\n"
             b"  - alias: liver-detox\n"
-            b"version: 0.1.0.dev0\n"
+            b"version: 0.1.0\n"
             b"license: Apache-2.0\n"
             b"abstract: Digest-only local evidence envelopes and lifecycle/chain consistency checks.\n"
         )

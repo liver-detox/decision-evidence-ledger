@@ -52,7 +52,7 @@ jobs:
       - name: Create reduced source archive
         run: |
           git archive --format=tar \\
-            --prefix=decision_evidence_ledger-0.1.0.dev0/ \\
+            --prefix=decision_evidence_ledger-0.1.0/ \\
             "$GITHUB_SHA" -- . \\
             ':(top,exclude).github/workflows/ci.yml' \\
             ':(top,exclude).gitignore' \\

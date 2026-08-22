@@ -7,11 +7,12 @@ fresh evidence, not assumption.
 
 - [x] Explicit authorization to create the public GitHub source repository and
   push the reviewed source history has been received.
-- [ ] Separate authorization to create a version tag, hosted release, or
-  package-index upload has been received.
+- [x] Separate authorization to create the `v0.1.0` tag and hosted GitHub
+  source release has been received.
+- [ ] Package-index upload authorization has been received.
 
-Only the first public GitHub source publication is authorized. Do not create a
-version tag, hosted release, or package-index upload under this authorization.
+Only the first GitHub source release is authorized. Do not upload to a package
+index under this authorization.
 
 ## Ownership and identity
 
@@ -93,16 +94,17 @@ server and requires the source-publication authorization recorded above.
 
 - [x] The repository owner, name, visibility, description, and default branch
   are approved.
-- [ ] A private vulnerability-reporting route is enabled and tested, then
-  documented in `SECURITY.md` without exposing a private mailbox.
+- [x] `SECURITY.md` accurately states that no private vulnerability-reporting
+  route is provided; sensitive reports must not be posted publicly.
 - [ ] The exact remote URL is copied from the approved GitHub repository; no
   guessed destination is used.
 - [x] The first push is independently reviewed immediately before execution.
 - [ ] Branch protection and workflow review ownership (for example CODEOWNERS)
-  are approved and configured.
-- [ ] The development version is replaced with an approved release version in
-  both package metadata and the importable package.
-- [ ] A release tag, hosted release, and package-index upload receive separate
-  authorization.
+  are not currently provided or configured.
+- [x] Version `0.1.0` is synchronized in package metadata and the importable
+  package.
+- [ ] The authorized `v0.1.0` tag points to the approved commit and the hosted
+  GitHub source release is created and reviewed.
+- [ ] Package-index upload receives separate authorization.
 - [x] Public claims about users, downloads, adoption, maintenance, or ecosystem
   value are made only from verifiable public evidence.
