@@ -6,11 +6,10 @@ a UTC timestamp, SHA-256 digests, and an optional link to the preceding
 envelope. It does not retain the source payload or metadata inside the
 envelope.
 
-The current version is `0.1.0`, prepared as the first GitHub source release.
-The `v0.1.0` tag and hosted GitHub source release are authorized, but this
-local preparation does not itself create them. There is no package-index
-release and no verified evidence of users, downloads, external adoption, or
-production use.
+The current version is `0.1.0`, released as the first GitHub source release.
+The `v0.1.0` tag and hosted GitHub source release are available. There is no
+package-index release and no verified evidence of users, downloads, external
+adoption, or production use.
 
 ## What problem does it address?
 
@@ -231,10 +230,10 @@ public report.
 ## Project status and participation
 
 This public source repository is maintained under the public identity
-`liver-detox`. The `v0.1.0` tag and hosted GitHub source release are authorized
-but are not created by local preparation. There is no package-index release,
-verified adoption, or private security-reporting endpoint. Branch protection
-and workflow-review ownership (such as CODEOWNERS) are not currently provided.
+`liver-detox`. The `v0.1.0` tag and hosted GitHub source release are
+available. There is no package-index release, verified adoption, or private
+security-reporting endpoint. Branch protection and workflow-review ownership
+(such as CODEOWNERS) are not currently provided.
 
 The reviewed CI workflow in `.github/workflows/ci.yml` is configured for
 pushes and pull requests. It tests the event commit on Python 3.11 through
