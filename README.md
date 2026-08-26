@@ -1,17 +1,26 @@
 # Decision Evidence Ledger
 
-Decision Evidence Ledger is a small Python library for creating and
-checking **digest-only evidence envelopes**. An envelope records identifiers,
-a UTC timestamp, SHA-256 digests, and an optional link to the preceding
-envelope. It does not retain the source payload or metadata inside the
-envelope.
+Decision Evidence Ledger helps local workflow maintainers keep corrections and
+withdrawals reviewable without copying source payloads into the ledger.
 
-The current version is `0.1.0`, released as the first GitHub source release.
-The `v0.1.0` tag and hosted GitHub source release are available. There is no
-package-index release and no verified evidence of users, downloads, external
-adoption, or production use.
+**On the first run:** verify the included three-event synthetic chain and get a
+clear `ok`, event count, and head digest.
 
-## What problem does it address?
+## Quickstart
+
+From the project root, with Python 3.11 or later:
+
+```sh
+PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/decision-evidence-ledger-pycache" \
+PYTHONPATH=src python3 -m decision_evidence_ledger.cli \
+  verify-chain --ledger examples/SYNTHETIC_chain.jsonl
+```
+
+The result is one JSON line with `"ok": true`, `"event_count": 3`, and a
+`head_digest`. The example covers `ASSERT`, `CORRECT`, and `WITHDRAW`; its
+ledger contains digests, not the source payloads. See [the synthetic example](examples/README.md).
+
+## How the record stays reviewable
 
 A decision or observation often changes over time. Keeping only the latest
 value hides whether an earlier assertion was corrected or withdrawn. This
@@ -31,220 +40,73 @@ The ledger can detect structural inconsistencies such as a changed envelope,
 a missing link, a duplicate event identifier, time moving backwards, or an
 invalid supersession relationship. It checks consistency, not truth.
 
-## Important limits
+## Trust, privacy, and input boundaries
 
-- A valid digest proves only that the supplied bytes canonicalize to the same
-  digest. It does not prove that the underlying statement is true.
-- A hash is not anonymization or encryption. Short, predictable, or otherwise
-  guessable values may be recovered by trying possible inputs.
-- A chain is meaningful only when a trusted copy of its head digest or another
-  reference is retained independently. Replacing a whole chain and its only
-  reference is outside this project's detection boundary.
+- A valid digest proves only that supplied bytes canonicalize to the same
+  digest; it does not prove that an underlying statement is true. A chain is
+  meaningful only if its head digest, or another reference, is retained
+  independently; replacing both is outside this project's detection boundary.
 - The project does not authenticate people, sign timestamps, manage access,
-  store secrets, encrypt evidence, or provide secure deletion.
-- Identifiers and timestamps remain visible in an envelope. Use opaque,
-  non-sensitive identifiers.
-- Source payload and metadata remain wherever the caller stored them. This
-  project does not move, redact, or delete those files.
-- The command line accepts JSON values made from `null`, booleans, integers,
-  strings, lists, and string-keyed objects. Floating-point values and duplicate
-  normalized keys are rejected.
-- This project has no market-data adapter, brokerage connection, account
-  access, trading function, or runtime network dependency.
-- Nothing in this project is investment advice, a return forecast, or a
-  promise of financial performance.
+  store secrets, encrypt evidence, or provide secure deletion. A hash is not
+  anonymization or encryption, and identifiers and timestamps remain visible.
+  Use opaque, non-sensitive identifiers.
+- Payload and metadata remain with the caller; this project does not move,
+  redact, or delete them. Do not put sensitive data or credentials in examples,
+  issue reports, identifiers, file names, or command arguments—shell history
+  and process inspection can expose arguments and paths.
+- The CLI accepts JSON `null`, booleans, integers, strings, lists, and
+  string-keyed objects; it rejects floats and duplicate normalized keys. It has
+  no market-data, brokerage, account, trading, or runtime-network capability,
+  and provides no investment advice, return forecast, or performance promise.
 
-## Requirements
+Read [SECURITY.md](SECURITY.md) before reporting a concern. No private
+reporting channel is available; never place sensitive details in a public
+report.
 
-- Python 3.11 or later, subject to verification on every version claimed by a
-  future release.
-- No third-party runtime dependency.
-- A local copy of this project.
+## Use it locally
 
-The package uses only the Python standard library at runtime. Its local build
-configuration uses `setuptools`; the development-tool inventory is not yet
-final.
+The project requires Python 3.11 or later and a local copy. It has no
+third-party runtime dependency; its local build configuration uses
+`setuptools`, and the development-tool inventory is not yet final.
 
-## Provenance record
-
-`PROVENANCE.json` is a maintainer-provided statement of each source path's
-origin and inclusion decision. It is not independent proof of rights,
-ownership, or provenance. Its authorization covers only the `v0.1.0` GitHub
-tag and hosted GitHub source release; it does not authorize a package-index
-upload.
-
-Run `python3 scripts/verify_provenance.py .` only on a clean candidate tree:
-the verifier accepts no cache, build, environment, or other extra files.
-`.gitignore` does not relax this strict check.
-
-Before running local Python commands, set one cache location outside the
-candidate directory:
-
-```sh
-export PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/decision-evidence-ledger-pycache"
-```
-
-## Run locally without installing
-
-From the project root:
+Inspect the CLI or run the tests directly from the checkout:
 
 ```sh
 PYTHONPATH=src python3 -m unittest discover -s tests -v
 PYTHONPATH=src python3 -m decision_evidence_ledger.cli --help
 ```
 
-The first command runs the standard-library test suite. The second starts the
-command-line interface directly from `src`.
+The installed CLI provides `seal`, `verify-envelope`, and `verify-chain`.
+The Python API exposes `create_event`, `verify_envelope`, `verify_chain`, and
+`append_event`. Verification returns stable diagnostic codes; the CLI exits
+`0` on success/help and `2` on rejected input or failed verification.
 
-## Optional local installation
-
-Build and install only from a disposable copy: package tooling may create
-generated files, which do not belong in the strict candidate tree.
+Package tooling can add generated files, so build or install only from a
+disposable copy:
 
 ```sh
 install_root="$(mktemp -d "${TMPDIR:-/tmp}/decision-evidence-ledger-install.XXXXXX")"
 cp -R . "$install_root/project"
-cd "$install_root/project"
 python3 -m venv "$install_root/venv"
-source "$install_root/venv/bin/activate"
-python -m pip install --no-deps --no-build-isolation .
-decision-evidence --help
+"$install_root/venv/bin/python" -m pip install --no-deps --no-build-isolation \
+  "$install_root/project"
 ```
 
-`--no-deps` means no runtime package is requested. `--no-build-isolation`
-means the command uses build tooling already present in the environment. If a
-compatible build tool is missing, stop and review the local release guide
-before allowing any download.
+See [the local release guide](docs/LOCAL_RELEASE_GUIDE.md) before preparing a
+release candidate.
 
-## Python API example
+## Project status, provenance, and participation
 
-This example uses only synthetic content and opaque identifiers:
+The current version is `v0.1.0`, available as a GitHub source release. There
+is no package-index release or verified adoption. CI runs on pushes and pull
+requests across Python 3.11–3.14; it is a project self-test, not a containment
+boundary.
 
-```python
-from datetime import datetime, timezone
-
-from decision_evidence_ledger import create_event, verify_envelope, verify_chain
-
-payload = {"scenario": "SYNTHETIC", "choice": "OPTION-A"}
-metadata = {"source": "SYNTHETIC-GENERATOR"}
-
-event = create_event(
-    event_id="SYNTHETIC-EVENT-A",
-    event_type="SYNTHETIC-DECISION",
-    subject_id="OPAQUE-SUBJECT-A",
-    operation="ASSERT",
-    supersedes_event_id=None,
-    recorded_at=datetime(2030, 1, 2, 3, 4, 5, tzinfo=timezone.utc),
-    payload=payload,
-    metadata=metadata,
-    previous_envelope_sha256=None,
-)
-
-assert verify_envelope(event, payload=payload, metadata=metadata).ok
-assert verify_chain((event,)).ok
-
-print(event.to_dict())  # identifiers, timestamp, and digests only
-```
-
-`create_event` validates lifecycle rules and returns an immutable
-`EvidenceEnvelope`. `verify_envelope` checks the envelope and, when supplied,
-recomputes payload or metadata bindings. `verify_chain` checks an ordered
-sequence. `append_event` returns a new tuple only when the resulting chain is
-valid.
-
-## Command-line example
-
-After local installation, create a file named `synthetic-payload.json`:
-
-```json
-{"scenario":"SYNTHETIC","choice":"OPTION-A"}
-```
-
-Seal it with opaque identifiers:
-
-```sh
-decision-evidence seal \
-  --event-id SYNTHETIC-EVENT-A \
-  --event-type SYNTHETIC-DECISION \
-  --subject-id OPAQUE-SUBJECT-A \
-  --operation ASSERT \
-  --recorded-at 2030-01-02T03:04:05.000001Z \
-  --payload synthetic-payload.json
-```
-
-The command prints one compact JSON line containing an `envelope` object. The
-source payload itself is not printed. To verify the binding later, save only
-that nested envelope object as `synthetic-envelope.json`, then run:
-
-```sh
-decision-evidence verify-envelope \
-  --envelope synthetic-envelope.json \
-  --payload synthetic-payload.json
-```
-
-A ledger file is JSON Lines: one complete envelope object per non-blank line,
-in order. Verify it with:
-
-```sh
-decision-evidence verify-chain --ledger synthetic-ledger.jsonl
-```
-
-Use `--previous-envelope-sha256` when sealing every event after the first. Use
-`--supersedes-event-id` with `CORRECT` or `WITHDRAW`. One input may be `-` to
-read JSON from standard input; a single command cannot read two inputs from
-standard input because their boundaries would be ambiguous.
-
-## Error model
-
-Python creation functions raise `ValueError` for invalid construction input.
-Verification functions return immutable result objects with:
-
-- `ok`: `True` only when no diagnostic code was found;
-- `codes`: stable, sorted diagnostic strings;
-- for a chain, `event_count` and the final usable `head_digest`.
-
-Envelope diagnostics include invalid schema, identifier, timestamp, digest
-format, and digest mismatches. Lifecycle diagnostics include unknown operation
-and invalid supersession. Chain diagnostics include broken links, duplicate
-identifiers, non-monotonic timestamps, unreadable ledger input, missing or
-mismatched supersession targets, and repeated replacement of one target.
-
-The command line returns exit status `0` for success or help, and `2` for a
-rejected input or failed verification. It prints a single JSON line and uses
-generic `INVALID_ARGUMENTS` or `INVALID_INPUT` codes for parsing failures so
-that exception text and input content are not echoed. Successful envelope
-output still exposes the identifiers and timestamp that the caller supplied.
-
-## Security and privacy
-
-Do not place secrets, personal data, account information, real positions,
-transactions, market data, private file paths, or provider credentials in
-examples, issue reports, identifiers, filenames, or command arguments. Shell
-history and operating-system process inspection can expose command arguments
-and paths even when this program's JSON output does not.
-
-Read [SECURITY.md](SECURITY.md) before reporting a security concern. No private
-reporting channel is currently offered, so never place sensitive details in a
-public report.
-
-## Project status and participation
-
-This public source repository is maintained under the public identity
-`liver-detox`. The `v0.1.0` tag and hosted GitHub source release are
-available. There is no package-index release, verified adoption, or private
-security-reporting endpoint. Branch protection and workflow-review ownership
-(such as CODEOWNERS) are not currently provided.
-
-The reviewed CI workflow in `.github/workflows/ci.yml` is configured for
-pushes and pull requests. It tests the event commit on Python 3.11 through
-3.14 with a read-only repository token and no configured project secrets,
-uploads, cache, or deployment steps. Hosted
-pull-request code can still execute with network access and can change the
-workflow; the workflow is a project self-test rather than a containment
-boundary. The 41-path provenance statement authorizes only this public GitHub
-source scope. Participation rules are described in
-[CONTRIBUTING.md](CONTRIBUTING.md), and additional release gates are in
-[RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md).
+`PROVENANCE.json` records the maintainer's inclusion decisions for the public
+source release. It is not independent proof of ownership and does not
+authorize a package-index upload. See [CONTRIBUTING.md](CONTRIBUTING.md) and
+[RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) for participation and release
+gates.
 
 ## License
 
