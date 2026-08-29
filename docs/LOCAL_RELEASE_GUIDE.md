@@ -63,6 +63,22 @@ python3 -m venv "${TMPDIR:-/tmp}/decision-evidence-ledger-venv"
 source "${TMPDIR:-/tmp}/decision-evidence-ledger-venv/bin/activate"
 ```
 
+如需在发布前演练安装，只能使用一次性副本（disposable copy），以免构建生成的文件
+污染严格候选树：
+
+```sh
+install_root="$(mktemp -d "${TMPDIR:-/tmp}/decision-evidence-ledger-install.XXXXXX")"
+cp -R . "$install_root/project"
+cd "$install_root/project"
+python3 -m venv "$install_root/venv"
+source "$install_root/venv/bin/activate"
+python -m pip install --no-deps --no-build-isolation .
+decision-evidence --help
+```
+
+`--no-deps` 表示不请求运行时依赖；`--no-build-isolation` 表示使用环境中已有的构建工具。
+如果缺少兼容的构建工具，应停止并先核对本指南，而不是允许临时下载。
+
 ## 二、已确认的身份事实与剩余发布闸门
 
 以下身份事实已经确认：

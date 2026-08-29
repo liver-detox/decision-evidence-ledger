@@ -82,11 +82,10 @@ class CIWorkflowContractTests(unittest.TestCase):
         """Catches unreviewed trigger, privilege, action, command, or runner changes."""
         self.assertEqual(WORKFLOW.read_text(encoding="utf-8"), EXPECTED_WORKFLOW)
 
-    def test_public_commands_route_python_cache_outside_candidate(self) -> None:
-        """Catches documentation that makes ordinary checks fail strict provenance."""
+    def test_maintainer_documents_route_python_cache_outside_candidate(self) -> None:
+        """Catches release documentation that makes a candidate tree impure."""
         cache_prefix = 'PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/decision-evidence-ledger-pycache"'
         for path in (
-            PROJECT / "README.md",
             PROJECT / "CONTRIBUTING.md",
             PROJECT / "docs" / "LOCAL_RELEASE_GUIDE.md",
         ):
@@ -108,11 +107,11 @@ class CIWorkflowContractTests(unittest.TestCase):
                     path.read_text(encoding="utf-8"),
                 )
 
-    def test_readme_installs_only_from_a_disposable_copy(self) -> None:
-        """Catches a build command that can leave generated files in the candidate."""
-        readme = (PROJECT / "README.md").read_text(encoding="utf-8")
-        self.assertIn("disposable copy", readme)
-        self.assertIn("mktemp -d", readme)
+    def test_maintainer_install_guide_uses_a_disposable_copy(self) -> None:
+        """Catches a release-install rehearsal that can pollute the candidate."""
+        guide = (PROJECT / "docs" / "LOCAL_RELEASE_GUIDE.md").read_text(encoding="utf-8")
+        self.assertIn("disposable copy", guide)
+        self.assertIn("mktemp -d", guide)
 
 
 if __name__ == "__main__":

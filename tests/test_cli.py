@@ -229,6 +229,21 @@ class CliTests(unittest.TestCase):
         self.assertIn("usage: decision-evidence seal", result.stdout)
         self.assertEqual(result.stderr, "")
 
+    def test_subcommand_help_explains_lifecycle_and_json_inputs(self):
+        """Fails if first-time CLI users must infer the documented input model."""
+        seal = self.run_cli("seal", "--help")
+        verify = self.run_cli("verify-envelope", "--help")
+        chain = self.run_cli("verify-chain", "--help")
+
+        for result in (seal, verify, chain):
+            self.assertEqual(result.returncode, 0)
+            self.assertEqual(result.stderr, "")
+        self.assertIn("ASSERT, CORRECT, or WITHDRAW", seal.stdout)
+        self.assertIn("YYYY-MM-DDTHH:MM:SS.ffffffZ", seal.stdout)
+        self.assertIn("JSON payload file", seal.stdout)
+        self.assertIn("Envelope JSON file", verify.stdout)
+        self.assertIn("JSON Lines ledger", chain.stdout)
+
     def test_abbreviated_long_options_are_invalid_arguments(self):
         """Fails if argparse accepts undeclared long-option abbreviations."""
         result = self.run_cli(

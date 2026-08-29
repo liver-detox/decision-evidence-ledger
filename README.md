@@ -11,7 +11,6 @@ clear `ok`, event count, and head digest.
 From the project root, with Python 3.11 or later:
 
 ```sh
-PYTHONPYCACHEPREFIX="${TMPDIR:-/tmp}/decision-evidence-ledger-pycache" \
 PYTHONPATH=src python3 -m decision_evidence_ledger.cli \
   verify-chain --ledger examples/SYNTHETIC_chain.jsonl
 ```
@@ -40,6 +39,27 @@ The ledger can detect structural inconsistencies such as a changed envelope,
 a missing link, a duplicate event identifier, time moving backwards, or an
 invalid supersession relationship. It checks consistency, not truth.
 
+## Use it locally
+
+The project requires Python 3.11 or later and a local copy. It has no
+third-party runtime dependency; its local build configuration uses
+`setuptools`, and the development-tool inventory is not yet final.
+
+Inspect the CLI or run the tests directly from the checkout:
+
+```sh
+PYTHONPATH=src python3 -m unittest discover -s tests -v
+PYTHONPATH=src python3 -m decision_evidence_ledger.cli --help
+```
+
+The installed CLI provides `seal`, `verify-envelope`, and `verify-chain`. The
+Python API exposes `create_event`, `verify_envelope`, `verify_chain`, and
+`append_event`. Verification returns stable diagnostic codes; the CLI exits
+`0` on success or help and `2` on rejected input or failed verification. For
+the synthetic lifecycle walkthrough, see [the examples](examples/README.md);
+run each command with `--help` to inspect its inputs. Maintainers preparing an
+installation or release candidate should use [the local release guide](docs/LOCAL_RELEASE_GUIDE.md).
+
 ## Trust, privacy, and input boundaries
 
 - A valid digest proves only that supplied bytes canonicalize to the same
@@ -63,50 +83,18 @@ Read [SECURITY.md](SECURITY.md) before reporting a concern. No private
 reporting channel is available; never place sensitive details in a public
 report.
 
-## Use it locally
+## Maintainer release gates
 
-The project requires Python 3.11 or later and a local copy. It has no
-third-party runtime dependency; its local build configuration uses
-`setuptools`, and the development-tool inventory is not yet final.
-
-Inspect the CLI or run the tests directly from the checkout:
-
-```sh
-PYTHONPATH=src python3 -m unittest discover -s tests -v
-PYTHONPATH=src python3 -m decision_evidence_ledger.cli --help
-```
-
-The installed CLI provides `seal`, `verify-envelope`, and `verify-chain`.
-The Python API exposes `create_event`, `verify_envelope`, `verify_chain`, and
-`append_event`. Verification returns stable diagnostic codes; the CLI exits
-`0` on success/help and `2` on rejected input or failed verification.
-
-Package tooling can add generated files, so build or install only from a
-disposable copy:
-
-```sh
-install_root="$(mktemp -d "${TMPDIR:-/tmp}/decision-evidence-ledger-install.XXXXXX")"
-cp -R . "$install_root/project"
-python3 -m venv "$install_root/venv"
-"$install_root/venv/bin/python" -m pip install --no-deps --no-build-isolation \
-  "$install_root/project"
-```
-
-See [the local release guide](docs/LOCAL_RELEASE_GUIDE.md) before preparing a
-release candidate.
-
-## Project status, provenance, and participation
+Maintainers only: **ordinary library and CLI users do not need to run these
+gates.** `scripts/verify_distribution.py`, `scripts/verify_provenance.py`, and
+the release checklist are maintainer release gates, not user prerequisites.
 
 The current version is `v0.1.0`, available as a GitHub source release. There
-is no package-index release or verified adoption. CI runs on pushes and pull
-requests across Python 3.11–3.14; it is a project self-test, not a containment
-boundary.
+is no package-index release and no verified evidence of users, downloads,
+external adoption, or production use.
 
-`PROVENANCE.json` records the maintainer's inclusion decisions for the public
-source release. It is not independent proof of ownership and does not
-authorize a package-index upload. See [CONTRIBUTING.md](CONTRIBUTING.md) and
-[RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) for participation and release
-gates.
+Release docs: [local guide](docs/LOCAL_RELEASE_GUIDE.md),
+[checklist](RELEASE_CHECKLIST.md), and [security policy](SECURITY.md).
 
 ## License
 

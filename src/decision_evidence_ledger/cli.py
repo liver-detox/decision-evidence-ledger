@@ -125,20 +125,65 @@ def _parser() -> _SafeParser:
     parser = _SafeParser(prog="decision-evidence")
     commands = parser.add_subparsers(dest="command", required=True)
 
-    seal = commands.add_parser("seal")
-    for option in ("event-id", "event-type", "subject-id", "operation", "recorded-at", "payload"):
-        seal.add_argument(f"--{option}", required=True, action=_SingleSource if option == "payload" else None)
-    seal.add_argument("--metadata", action=_SingleSource)
-    seal.add_argument("--supersedes-event-id")
-    seal.add_argument("--previous-envelope-sha256")
+    seal = commands.add_parser(
+        "seal",
+        help="create a digest-only envelope from JSON evidence",
+        description="Create a digest-only envelope from a JSON payload.",
+    )
+    seal.add_argument("--event-id", required=True, help="Opaque identifier for this event.")
+    seal.add_argument("--event-type", required=True, help="Opaque type shared by related events.")
+    seal.add_argument("--subject-id", required=True, help="Opaque identifier for the event subject.")
+    seal.add_argument(
+        "--operation",
+        required=True,
+        help="Lifecycle operation: ASSERT, CORRECT, or WITHDRAW.",
+    )
+    seal.add_argument(
+        "--recorded-at",
+        required=True,
+        help="UTC timestamp: YYYY-MM-DDTHH:MM:SS.ffffffZ (for example 2030-01-02T03:04:05.000001Z).",
+    )
+    seal.add_argument(
+        "--payload",
+        required=True,
+        action=_SingleSource,
+        help="JSON payload file, or - for standard input.",
+    )
+    seal.add_argument("--metadata", action=_SingleSource, help="Optional JSON metadata file, or - for standard input.")
+    seal.add_argument(
+        "--supersedes-event-id",
+        help="Required for CORRECT or WITHDRAW; omit it for ASSERT.",
+    )
+    seal.add_argument(
+        "--previous-envelope-sha256",
+        help="Digest of the immediately preceding envelope, if there is one.",
+    )
 
-    verify = commands.add_parser("verify-envelope")
-    verify.add_argument("--envelope", required=True, action=_SingleSource)
-    verify.add_argument("--payload", action=_SingleSource)
-    verify.add_argument("--metadata", action=_SingleSource)
+    verify = commands.add_parser(
+        "verify-envelope",
+        help="verify an envelope and optional JSON bindings",
+        description="Verify an envelope and, optionally, its JSON payload or metadata bindings.",
+    )
+    verify.add_argument(
+        "--envelope",
+        required=True,
+        action=_SingleSource,
+        help="Envelope JSON file, or - for standard input.",
+    )
+    verify.add_argument("--payload", action=_SingleSource, help="Optional JSON payload file to verify.")
+    verify.add_argument("--metadata", action=_SingleSource, help="Optional JSON metadata file to verify.")
 
-    chain = commands.add_parser("verify-chain")
-    chain.add_argument("--ledger", required=True, action=_SingleSource)
+    chain = commands.add_parser(
+        "verify-chain",
+        help="verify an ordered JSON Lines ledger",
+        description="Verify an ordered JSON Lines ledger of envelope objects.",
+    )
+    chain.add_argument(
+        "--ledger",
+        required=True,
+        action=_SingleSource,
+        help="JSON Lines ledger file, or - for standard input.",
+    )
     return parser
 
 
