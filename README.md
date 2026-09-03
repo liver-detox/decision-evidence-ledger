@@ -3,6 +3,10 @@
 Decision Evidence Ledger helps local workflow maintainers keep corrections and
 withdrawals reviewable without copying source payloads into the ledger.
 
+In an optional three-tool workflow, Decision Evidence Ledger is the recording
+step: which exact artifact supports the decision, and can later corrections or
+withdrawals be reviewed?
+
 **On the first run:** verify the included three-event synthetic chain and get a
 clear `ok`, event count, and head digest.
 
