@@ -27,6 +27,7 @@
     {"decision": "INCLUDE_IN_LOCAL_PUBLIC_CANDIDATE", "origin": "SYNTHETIC_FIXTURE_CREATED_LOCALLY", "path": "examples/SYNTHETIC_correct_payload.json"},
     {"decision": "INCLUDE_IN_LOCAL_PUBLIC_CANDIDATE", "origin": "SYNTHETIC_FIXTURE_CREATED_LOCALLY", "path": "examples/SYNTHETIC_metadata.json"},
     {"decision": "INCLUDE_IN_LOCAL_PUBLIC_CANDIDATE", "origin": "SYNTHETIC_FIXTURE_CREATED_LOCALLY", "path": "examples/SYNTHETIC_withdraw_payload.json"},
+    {"decision": "INCLUDE_IN_LOCAL_PUBLIC_CANDIDATE", "origin": "LOCAL_AI_ASSISTED_PROJECT_AUTHORING", "path": "examples/rebuild_synthetic_chain.py"},
     {"decision": "INCLUDE_IN_LOCAL_PUBLIC_CANDIDATE", "origin": "LOCAL_AI_ASSISTED_PROJECT_AUTHORING", "path": "pyproject.toml"},
     {"decision": "INCLUDE_IN_LOCAL_PUBLIC_CANDIDATE", "origin": "LOCAL_AI_ASSISTED_PROJECT_AUTHORING", "path": "scripts/__init__.py"},
     {"decision": "INCLUDE_IN_LOCAL_PUBLIC_CANDIDATE", "origin": "LOCAL_AI_ASSISTED_PROJECT_AUTHORING", "path": "scripts/verify_distribution.py"},
@@ -47,7 +48,8 @@
     {"decision": "INCLUDE_IN_LOCAL_PUBLIC_CANDIDATE", "origin": "LOCAL_AI_ASSISTED_PROJECT_AUTHORING", "path": "tests/test_ledger.py"},
     {"decision": "INCLUDE_IN_LOCAL_PUBLIC_CANDIDATE", "origin": "LOCAL_AI_ASSISTED_PROJECT_AUTHORING", "path": "tests/test_no_io.py"},
     {"decision": "INCLUDE_IN_LOCAL_PUBLIC_CANDIDATE", "origin": "LOCAL_AI_ASSISTED_PROJECT_AUTHORING", "path": "tests/test_package.py"},
-    {"decision": "INCLUDE_IN_LOCAL_PUBLIC_CANDIDATE", "origin": "LOCAL_AI_ASSISTED_PROJECT_AUTHORING", "path": "tests/test_provenance.py"}
+    {"decision": "INCLUDE_IN_LOCAL_PUBLIC_CANDIDATE", "origin": "LOCAL_AI_ASSISTED_PROJECT_AUTHORING", "path": "tests/test_provenance.py"},
+    {"decision": "INCLUDE_IN_LOCAL_PUBLIC_CANDIDATE", "origin": "LOCAL_AI_ASSISTED_PROJECT_AUTHORING", "path": "tests/test_rebuild_example.py"}
   ],
   "publication_authorization": "GRANTED_FOR_GITHUB_V0_1_0_TAG_AND_HOSTED_SOURCE_RELEASE_ONLY",
   "schema_version": "decision-evidence-ledger/public-provenance/v1",

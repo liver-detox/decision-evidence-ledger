@@ -64,6 +64,7 @@ ALL_PATHS = (
     "examples/SYNTHETIC_correct_payload.json",
     "examples/SYNTHETIC_metadata.json",
     "examples/SYNTHETIC_withdraw_payload.json",
+    "examples/rebuild_synthetic_chain.py",
     "pyproject.toml",
     "scripts/__init__.py",
     "scripts/verify_distribution.py",
@@ -85,6 +86,7 @@ ALL_PATHS = (
     "tests/test_no_io.py",
     "tests/test_package.py",
     "tests/test_provenance.py",
+    "tests/test_rebuild_example.py",
 )
 
 
@@ -149,8 +151,8 @@ class ProvenanceTests(unittest.TestCase):
             {
                 "archive_count": None,
                 "codes": [],
-                "documented_count": 41,
-                "observed_count": 41,
+                "documented_count": 43,
+                "observed_count": 43,
                 "ok": True,
             },
         )
@@ -521,9 +523,9 @@ class ArchiveProvenanceTests(unittest.TestCase):
         """Catches archive validation missing a required ordinary project member."""
         result = self.result_for()
         self.assertTrue(result.ok, result.codes)
-        self.assertEqual(result.archive_count, 37)
-        self.assertEqual(result.documented_count, 41)
-        self.assertEqual(result.observed_count, 41)
+        self.assertEqual(result.archive_count, 39)
+        self.assertEqual(result.documented_count, 43)
+        self.assertEqual(result.observed_count, 43)
 
     def test_cli_accepts_archive_and_reports_only_ordinary_member_count(self) -> None:
         """Catches a CLI that silently omits its reviewed archive verification branch."""
@@ -541,7 +543,7 @@ class ArchiveProvenanceTests(unittest.TestCase):
             )
 
         self.assertEqual(completed.returncode, 0, completed.stdout)
-        self.assertEqual(json.loads(completed.stdout)["archive_count"], 37)
+        self.assertEqual(json.loads(completed.stdout)["archive_count"], 39)
         self.assertEqual(completed.stderr, "")
 
     def test_rejects_missing_and_extra_archive_files(self) -> None:

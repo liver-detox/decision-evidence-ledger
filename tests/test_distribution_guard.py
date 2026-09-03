@@ -121,10 +121,12 @@ class DistributionGuardTests(unittest.TestCase):
             "examples/SYNTHETIC_correct_payload.json",
             "examples/SYNTHETIC_metadata.json",
             "examples/SYNTHETIC_withdraw_payload.json",
+            "examples/rebuild_synthetic_chain.py",
             "scripts/__init__.py",
             "scripts/verify_distribution.py",
             "tests/test_distribution_guard.py",
             "tests/test_no_io.py",
+            "tests/test_rebuild_example.py",
         )
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

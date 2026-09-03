@@ -18,7 +18,7 @@ include THIRD_PARTY_NOTICES.md
 # Runtime package and synthetic verification assets.
 recursive-include src/decision_evidence_ledger *.py
 recursive-include tests *.py
-recursive-include examples *.json *.jsonl *.md
+recursive-include examples *.json *.jsonl *.md *.py
 recursive-include scripts *.py
 
 # The source-only CI contract test is deliberately absent from the sdist.

@@ -85,6 +85,7 @@ _EXPECTED_PATHS = frozenset(
         "docs/LOCAL_RELEASE_GUIDE.md",
         "examples/README.md",
         *_SYNTHETIC_PATHS,
+        "examples/rebuild_synthetic_chain.py",
         "pyproject.toml",
         "scripts/__init__.py",
         "scripts/verify_distribution.py",
@@ -101,6 +102,7 @@ _EXPECTED_PATHS = frozenset(
         "tests/test_no_io.py",
         "tests/test_package.py",
         "tests/test_provenance.py",
+        "tests/test_rebuild_example.py",
     }
 )
 

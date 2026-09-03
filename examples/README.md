@@ -20,5 +20,21 @@ documents. From an installed local candidate, verify the chain with:
 decision-evidence verify-chain --ledger examples/SYNTHETIC_chain.jsonl
 ```
 
+## Rebuild and verify the lifecycle
+
+From the project root in Bash or Zsh, rebuild the same three events from the
+synthetic payload and metadata files, then send the generated JSON Lines
+directly to the verifier:
+
+```bash
+export PYTHONPATH=src
+set -o pipefail
+python3 examples/rebuild_synthetic_chain.py |
+  python3 -m decision_evidence_ledger.cli verify-chain --ledger -
+```
+
+The verifier reports `"ok": true` and an event count of `3`. Run the Python
+command without the pipe when you want to inspect the rebuilt envelopes.
+
 The example demonstrates integrity and lifecycle mechanics only. It is not
 market data, an investment result, or an expected-return claim.

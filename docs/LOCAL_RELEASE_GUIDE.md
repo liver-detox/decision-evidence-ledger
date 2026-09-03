@@ -142,7 +142,7 @@ GitHub 页面通常会给出添加 `origin` 的命令。`origin` 只是本地对
 推送前重新执行测试、语法检查、敏感信息扫描和暂存文件检查。再由另一轮人工
 复核远程地址与提交内容。首次本地提交后、首次推送前，对该提交执行
 `.github/workflows/ci.yml` 中固定的 `git archive` 步骤（固定 prefix、`-- .` 和
-四个 top exclusion），再用 provenance verifier 确认有 37 个普通项目成员。工作流
+四个 top exclusion），再用 provenance verifier 确认有 39 个普通项目成员。工作流
 是该命令的唯一事实来源。全部证据通过后，GitHub 常用的首次推送命令是：
 
 ```sh

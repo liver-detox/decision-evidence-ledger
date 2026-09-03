@@ -17,7 +17,7 @@ index under this authorization.
 ## Ownership and identity
 
 - [x] The copyright or licensing entity is confirmed in writing as `liver-detox`.
-- [x] Each of the 41 source paths has a maintainer-provided origin statement
+- [x] Each of the 43 source paths has a maintainer-provided origin statement
   and an inclusion decision. This statement is not independent rights proof.
 - [x] The maintainer's intended public GitHub name is confirmed as `liver-detox`.
 - [x] A GitHub-provided `noreply` address or another deliberately public commit
@@ -65,7 +65,7 @@ repository and release identifiers.
 - [ ] The first hosted CI run passes on the event commit; this cannot be claimed
   until the separately authorized push and exact archive check occur.
 - [x] After the first local commit and before the first push, the workflow's
-  fixed Git archive step is run for that commit and provenance confirms 37
+  fixed Git archive step is run for that commit and provenance confirms 39
   ordinary project members.
 - [x] Python API and command-line examples are rerun exactly as documented.
 - [x] Failure examples return documented codes without revealing source input.
