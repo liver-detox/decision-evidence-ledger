@@ -7,11 +7,11 @@ fresh evidence, not assumption.
 
 - [x] Explicit authorization to create the public GitHub source repository and
   push the reviewed source history has been received.
-- [x] Separate authorization to create the `v0.1.0` tag and hosted GitHub
+- [x] Separate authorization to create the `v0.2.0` tag and hosted GitHub
   source release has been received.
 - [ ] Package-index upload authorization has been received.
 
-Only the first GitHub source release is authorized. Do not upload to a package
+Only the `v0.2.0` GitHub source release is authorized. Do not upload to a package
 index under this authorization.
 
 ## Ownership and identity
@@ -62,11 +62,10 @@ repository and release identifiers.
 - [x] The approved local CI configuration covers Python 3.11, 3.12, 3.13, and
   3.14 with a read-only token, no configured secrets, uploads, cache, or
   deployment steps.
-- [ ] The first hosted CI run passes on the event commit; this cannot be claimed
-  until the separately authorized push and exact archive check occur.
-- [x] After the first local commit and before the first push, the workflow's
-  fixed Git archive step is run for that commit and provenance confirms 39
-  ordinary project members.
+- [ ] The `v0.2.0` release commit passes hosted CI on every configured Python
+  version; this cannot be claimed until the release commit is pushed.
+- [x] Before the release push, the workflow's fixed Git archive step is run for
+  the release candidate and provenance confirms 39 ordinary project members.
 - [x] Python API and command-line examples are rerun exactly as documented.
 - [x] Failure examples return documented codes without revealing source input.
 - [x] The source distribution and wheel are built in a disposable directory.
@@ -96,14 +95,14 @@ server and requires the source-publication authorization recorded above.
   are approved.
 - [x] `SECURITY.md` accurately states that no private vulnerability-reporting
   route is provided; sensitive reports must not be posted publicly.
-- [ ] The exact remote URL is copied from the approved GitHub repository; no
+- [x] The exact remote URL is copied from the approved GitHub repository; no
   guessed destination is used.
-- [x] The first push is independently reviewed immediately before execution.
+- [x] The release push is independently reviewed immediately before execution.
 - [ ] Branch protection and workflow review ownership (for example CODEOWNERS)
   are not currently provided or configured.
-- [x] Version `0.1.0` is synchronized in package metadata and the importable
+- [x] Version `0.2.0` is synchronized in package metadata and the importable
   package.
-- [ ] The authorized `v0.1.0` tag points to the approved commit and the hosted
+- [ ] The authorized `v0.2.0` tag points to the approved commit and the hosted
   GitHub source release is created and reviewed.
 - [ ] Package-index upload receives separate authorization.
 - [x] Public claims about users, downloads, adoption, maintenance, or ecosystem

@@ -46,8 +46,7 @@ invalid supersession relationship. It checks consistency, not truth.
 ## Use it locally
 
 The project requires Python 3.11 or later and a local copy. It has no
-third-party runtime dependency; its local build configuration uses
-`setuptools`, and the development-tool inventory is not yet final.
+third-party runtime dependencies.
 
 Inspect the CLI or run the tests directly from the checkout:
 
@@ -64,40 +63,12 @@ the synthetic lifecycle walkthrough, see [the examples](examples/README.md);
 run each command with `--help` to inspect its inputs. Maintainers preparing an
 installation or release candidate should use [the local release guide](docs/LOCAL_RELEASE_GUIDE.md).
 
-## Trust, privacy, and input boundaries
+## Project status
 
-- A valid digest proves only that supplied bytes canonicalize to the same
-  digest; it does not prove that an underlying statement is true. A chain is
-  meaningful only if its head digest, or another reference, is retained
-  independently; replacing both is outside this project's detection boundary.
-- The project does not authenticate people, sign timestamps, manage access,
-  store secrets, encrypt evidence, or provide secure deletion. A hash is not
-  anonymization or encryption, and identifiers and timestamps remain visible.
-  Use opaque, non-sensitive identifiers.
-- Payload and metadata remain with the caller; this project does not move,
-  redact, or delete them. Do not put sensitive data or credentials in examples,
-  issue reports, identifiers, file names, or command arguments—shell history
-  and process inspection can expose arguments and paths.
-- The CLI accepts JSON `null`, booleans, integers, strings, lists, and
-  string-keyed objects; it rejects floats and duplicate normalized keys. It has
-  no market-data, brokerage, account, trading, or runtime-network capability,
-  and provides no investment advice, return forecast, or performance promise.
+The current version is `v0.2.0`, available as a GitHub source release. There
+is no package-index release.
 
-Read [SECURITY.md](SECURITY.md) before reporting a concern. No private
-reporting channel is available; never place sensitive details in a public
-report.
-
-## Maintainer release gates
-
-Maintainers only: **ordinary library and CLI users do not need to run these
-gates.** `scripts/verify_distribution.py`, `scripts/verify_provenance.py`, and
-the release checklist are maintainer release gates, not user prerequisites.
-
-The current version is `v0.1.0`, available as a GitHub source release. There
-is no package-index release and no verified evidence of users, downloads,
-external adoption, or production use.
-
-Release docs: [local guide](docs/LOCAL_RELEASE_GUIDE.md),
+Maintainer docs: [local release guide](docs/LOCAL_RELEASE_GUIDE.md),
 [checklist](RELEASE_CHECKLIST.md), and [security policy](SECURITY.md).
 
 ## License
@@ -107,3 +78,10 @@ Copyright 2026 liver-detox.
 This project is licensed under the Apache License 2.0; see
 [LICENSE](LICENSE). Third-party status is recorded in
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
+## Scope and privacy
+
+The ledger verifies structural consistency, not truth. It does not authenticate
+people, encrypt data, connect to markets or brokers, or move source payloads;
+use opaque identifiers and keep sensitive data out of records and public
+reports. See [SECURITY.md](SECURITY.md) for reporting guidance.

@@ -2,6 +2,27 @@
 
 This file records user-visible project changes.
 
+## 0.2.0 — clearer first run and reproducible lifecycle
+
+### What users can do now
+
+- Verify the included three-event lifecycle from a source checkout and receive
+  one result containing `ok`, the event count, and the current head digest.
+- Rebuild the same `ASSERT` → `CORRECT` → `WITHDRAW` lifecycle from the included
+  synthetic inputs, then send it directly to the verifier.
+- Discover the JSON inputs for `seal`, `verify-envelope`, and `verify-chain`
+  through clearer command-line help.
+
+### Improved
+
+- The README now leads with the first useful result and keeps maintainer-only
+  release checks out of the user's path.
+- The reproducible lifecycle example is included in the source archive and is
+  checked against the documented chain by an automated test.
+
+The runtime API, evidence schema, dependency policy, and Apache-2.0 license are
+unchanged from `0.1.0`.
+
 ## 0.1.0 — first GitHub source release preparation
 
 ### Added

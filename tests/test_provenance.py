@@ -103,8 +103,8 @@ def origin_for(path: str) -> str:
 def valid_document() -> dict[str, object]:
     return {
         "schema_version": SCHEMA_VERSION,
-        "candidate_status": "V0_1_0_GITHUB_SOURCE_RELEASE_AUTHORIZED",
-        "publication_authorization": "GRANTED_FOR_GITHUB_V0_1_0_TAG_AND_HOSTED_SOURCE_RELEASE_ONLY",
+        "candidate_status": "V0_2_0_GITHUB_SOURCE_RELEASE_AUTHORIZED",
+        "publication_authorization": "GRANTED_FOR_GITHUB_V0_2_0_TAG_AND_HOSTED_SOURCE_RELEASE_ONLY",
         "controller": {
             "public_alias": "liver-detox",
             "development": "LOCAL_AI_ASSISTED",
@@ -479,7 +479,7 @@ class ProvenanceTests(unittest.TestCase):
 class ArchiveProvenanceTests(unittest.TestCase):
     """Require an exact, Git-shaped source archive rather than a partial export."""
 
-    prefix = "decision_evidence_ledger-0.1.0"
+    prefix = "decision_evidence_ledger-0.2.0"
 
     def _write_member(self, archive: tarfile.TarFile, name: str, payload: bytes = b"SYNTHETIC\n") -> None:
         member = tarfile.TarInfo(name)

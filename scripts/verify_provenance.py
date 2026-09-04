@@ -20,8 +20,8 @@ except ModuleNotFoundError:
 
 
 SCHEMA_VERSION = "decision-evidence-ledger/public-provenance/v1"
-CANDIDATE_STATUS = "V0_1_0_GITHUB_SOURCE_RELEASE_AUTHORIZED"
-PUBLICATION_AUTHORIZATION = "GRANTED_FOR_GITHUB_V0_1_0_TAG_AND_HOSTED_SOURCE_RELEASE_ONLY"
+CANDIDATE_STATUS = "V0_2_0_GITHUB_SOURCE_RELEASE_AUTHORIZED"
+PUBLICATION_AUTHORIZATION = "GRANTED_FOR_GITHUB_V0_2_0_TAG_AND_HOSTED_SOURCE_RELEASE_ONLY"
 DECISION = "INCLUDE_IN_LOCAL_PUBLIC_CANDIDATE"
 SOURCE_ONLY_PATHS = (
     ".github/workflows/ci.yml",
@@ -260,7 +260,7 @@ def _observe(root: Path) -> tuple[set[str], set[str]]:
     return observed, codes
 
 
-_ARCHIVE_PREFIX = "decision_evidence_ledger-0.1.0"
+_ARCHIVE_PREFIX = "decision_evidence_ledger-0.2.0"
 
 
 def _archive_ancestors(paths: set[str]) -> set[str]:

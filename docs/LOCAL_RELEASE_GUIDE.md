@@ -1,8 +1,8 @@
 # 本地发布准备指南
 
-本文面向第一次使用 GitHub 的维护者。当前版本为 `0.1.0`。项目已获授权将经过
+本文面向第一次使用 GitHub 的维护者。当前版本为 `0.2.0`。项目已获授权将经过
 审查的源码发布到 `liver-detox/decision-evidence-ledger` 公共 GitHub 仓库，并创建
-`v0.1.0` 标签和托管 GitHub 源码 Release；该授权不包括软件包索引上传。
+`v0.2.0` 标签和托管 GitHub 源码 Release；该授权不包括软件包索引上传。
 
 ## 先理解几个词
 
@@ -52,8 +52,8 @@ python3 scripts/verify_provenance.py .
 
 该检查只接受真实根目录 `.git` 控制目录以外的已记录路径；缓存、构建产物、环境和其
 他额外文件都会导致失败。`publication_authorization` 为
-`GRANTED_FOR_GITHUB_V0_1_0_TAG_AND_HOSTED_SOURCE_RELEASE_ONLY`，只授权
-`v0.1.0` GitHub 标签和托管源码 Release，不授权软件包索引上传。
+`GRANTED_FOR_GITHUB_V0_2_0_TAG_AND_HOSTED_SOURCE_RELEASE_ONLY`，只授权
+`v0.2.0` GitHub 标签和托管源码 Release，不授权软件包索引上传。
 `.gitignore` 只能避免 Git 意外关注这些文件，不能放宽 provenance 的严格检查。
 
 如需本地虚拟环境，也把它放在候选目录外：
@@ -90,11 +90,11 @@ decision-evidence --help
 以下正式发布事项仍待确认，不能凭猜测填写：
 
 - 私密安全报告和执行渠道；
-- 首次托管 CI 在全部已配置 Python 版本上的结果；
-- `v0.1.0` 标签和托管 GitHub 源码 Release 的执行日期。
+- `v0.2.0` 发布提交在全部已配置 Python 版本上的托管 CI 结果；
+- `v0.2.0` 标签和托管 GitHub 源码 Release 的执行日期。
 
-项目已实现 Python 3.11、3.12、3.13 和 3.14 的 CI 配置。首次托管运行结果只能
-在首次推送后确认。分支保护和工作流审查所有权目前均未提供。`0.1.0`、`v0.1.0`
+项目已实现 Python 3.11、3.12、3.13 和 3.14 的 CI 配置。本次托管运行结果只能
+在发布提交推送后确认。分支保护和工作流审查所有权目前均未提供。`0.2.0`、`v0.2.0`
 标签和托管 GitHub 源码 Release 已获授权；软件包索引上传仍未获授权。
 
 ## 三、本地 Git 历史
@@ -121,7 +121,7 @@ git config --get user.email
 git commit -m "chore: prepare local development snapshot"
 ```
 
-这仍然只是本机快照。版本 `0.1.0` 已为已授权的 GitHub 源码 Release 准备完毕，
+这仍然只是本机快照。版本 `0.2.0` 已为已授权的 GitHub 源码 Release 准备完毕，
 但本地提交本身不会创建标签或托管 Release，也不构成软件包索引发布。
 
 ## 四、公共源码仓库（本次已授权）
@@ -137,26 +137,25 @@ git commit -m "chore: prepare local development snapshot"
 GitHub 页面通常会给出添加 `origin` 的命令。`origin` 只是本地对远程地址的常用
 简称，不表示该地址已经经过批准。
 
-## 五、首次源码推送（本次已授权）
+## 五、本次版本推送（已授权）
 
 推送前重新执行测试、语法检查、敏感信息扫描和暂存文件检查。再由另一轮人工
-复核远程地址与提交内容。首次本地提交后、首次推送前，对该提交执行
+复核远程地址与提交内容。版本提交后、推送前，对该提交执行
 `.github/workflows/ci.yml` 中固定的 `git archive` 步骤（固定 prefix、`-- .` 和
 四个 top exclusion），再用 provenance verifier 确认有 39 个普通项目成员。工作流
-是该命令的唯一事实来源。全部证据通过后，GitHub 常用的首次推送命令是：
+是该命令的唯一事实来源。全部证据通过后，推送命令是：
 
 ```sh
-git push -u origin main
+git push origin main
 ```
 
-`-u` 会把本地 `main` 与远程 `main` 建立默认关联。本次授权只允许把已审查
-源码上传到上述公共仓库。
+本次授权只允许把已审查源码上传到上述公共仓库。
 
-首次推送不等于软件包索引发布。`v0.1.0` 标签和托管 GitHub 源码 Release 已获
+本次推送不等于软件包索引发布。`v0.2.0` 标签和托管 GitHub 源码 Release 已获
 授权，但在执行前仍须核对标签所指提交和发布页面内容；源码包、wheel 和软件包
 索引上传需要各自的检查，且软件包索引上传仍需单独授权。
 
-## 六、执行已授权的 v0.1.0 GitHub 源码 Release 前
+## 六、执行已授权的 v0.2.0 GitHub 源码 Release 前
 
 使用 [RELEASE_CHECKLIST.md](../RELEASE_CHECKLIST.md) 逐项核验。必须重新核验或如实记录：
 
@@ -165,7 +164,7 @@ git push -u origin main
 - 全新环境安装；
 - 源码包与 wheel 的完整文件清单；
 - README 中每条命令的实际运行结果；
-- `0.1.0`、变更日志、`v0.1.0` 标签和发布说明的一致性。
+- `0.2.0`、变更日志、`v0.2.0` 标签和发布说明的一致性。
 
 没有公开用户、下载、采用、贡献或维护记录时，应如实写“尚无证据”，不能用计划
 替代事实。

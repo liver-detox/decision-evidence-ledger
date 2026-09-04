@@ -1,5 +1,5 @@
 {
-  "candidate_status": "V0_1_0_GITHUB_SOURCE_RELEASE_AUTHORIZED",
+  "candidate_status": "V0_2_0_GITHUB_SOURCE_RELEASE_AUTHORIZED",
   "controller": {
     "development": "LOCAL_AI_ASSISTED",
     "public_alias": "liver-detox",
@@ -51,7 +51,7 @@
     {"decision": "INCLUDE_IN_LOCAL_PUBLIC_CANDIDATE", "origin": "LOCAL_AI_ASSISTED_PROJECT_AUTHORING", "path": "tests/test_provenance.py"},
     {"decision": "INCLUDE_IN_LOCAL_PUBLIC_CANDIDATE", "origin": "LOCAL_AI_ASSISTED_PROJECT_AUTHORING", "path": "tests/test_rebuild_example.py"}
   ],
-  "publication_authorization": "GRANTED_FOR_GITHUB_V0_1_0_TAG_AND_HOSTED_SOURCE_RELEASE_ONLY",
+  "publication_authorization": "GRANTED_FOR_GITHUB_V0_2_0_TAG_AND_HOSTED_SOURCE_RELEASE_ONLY",
   "schema_version": "decision-evidence-ledger/public-provenance/v1",
   "source_only_paths": [
     ".github/workflows/ci.yml",

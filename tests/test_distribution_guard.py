@@ -58,7 +58,7 @@ class DistributionGuardTests(unittest.TestCase):
                 "type: software\n"
                 "authors:\n"
                 "  - alias: liver-detox\n"
-                "version: 0.1.0\n"
+                "version: 0.2.0\n"
                 "license: Apache-2.0\n"
                 "abstract: Digest-only local evidence envelopes and lifecycle/chain consistency checks.\n",
             )
@@ -74,7 +74,7 @@ class DistributionGuardTests(unittest.TestCase):
             b"type: software\n"
             b"authors:\n"
             b"  - alias: liver-detox\n"
-            b"version: 0.1.0\n"
+            b"version: 0.2.0\n"
             b"license: Apache-2.0\n"
             b"abstract: Digest-only local evidence envelopes and lifecycle/chain consistency checks.\n"
         )
@@ -82,7 +82,7 @@ class DistributionGuardTests(unittest.TestCase):
             archive_path = Path(directory, "citation.tar.gz")
             with tarfile.open(archive_path, "w:gz") as archive:
                 member = tarfile.TarInfo(
-                    "decision_evidence_ledger-0.1.0/CITATION.cff"
+                    "decision_evidence_ledger-0.2.0/CITATION.cff"
                 )
                 member.size = len(payload)
                 archive.addfile(member, io.BytesIO(payload))
@@ -153,7 +153,7 @@ class DistributionGuardTests(unittest.TestCase):
             archive_path = root / "provenance.tar.gz"
             with tarfile.open(archive_path, "w:gz") as archive:
                 for name in names:
-                    member = tarfile.TarInfo(f"decision_evidence_ledger-0.1.0/{name}")
+                    member = tarfile.TarInfo(f"decision_evidence_ledger-0.2.0/{name}")
                     member.size = len(payload)
                     archive.addfile(member, io.BytesIO(payload))
             sdist_result = guard.scan_path(archive_path)
@@ -185,7 +185,7 @@ class DistributionGuardTests(unittest.TestCase):
             for index, name in enumerate(names):
                 archive_path = root / f"ci-source-only-{index}.tar"
                 with tarfile.open(archive_path, "w") as archive:
-                    member = tarfile.TarInfo(f"decision_evidence_ledger-0.1.0/{name}")
+                    member = tarfile.TarInfo(f"decision_evidence_ledger-0.2.0/{name}")
                     member.size = len(payload)
                     archive.addfile(member, io.BytesIO(payload))
                 wheel_path = root / f"ci-source-only-{index}.whl"
@@ -256,22 +256,22 @@ class DistributionGuardTests(unittest.TestCase):
             with zipfile.ZipFile(wheel, "w") as archive:
                 archive.writestr("decision_evidence_ledger/__init__.py", "SYNTHETIC = True\n")
                 archive.writestr(
-                    "decision_evidence_ledger-0.1.0.dist-info/METADATA",
+                    "decision_evidence_ledger-0.2.0.dist-info/METADATA",
                     "Name: decision-evidence-ledger\n",
                 )
                 archive.writestr(
-                    "decision_evidence_ledger-0.1.0.dist-info/top_level.txt",
+                    "decision_evidence_ledger-0.2.0.dist-info/top_level.txt",
                     "decision_evidence_ledger\n",
                 )
                 archive.writestr(
-                    "decision_evidence_ledger-0.1.0.dist-info/licenses/LICENSE",
+                    "decision_evidence_ledger-0.2.0.dist-info/licenses/LICENSE",
                     "SYNTHETIC\nhttp://www.apache.org/licenses/\n",
                 )
             sdist = root / "SYNTHETIC.tar.gz"
             payload = b"SYNTHETIC\n"
             with tarfile.open(sdist, "w:gz") as archive:
                 member = tarfile.TarInfo(
-                    "decision_evidence_ledger-0.1.0/README.md"
+                    "decision_evidence_ledger-0.2.0/README.md"
                 )
                 member.size = len(payload)
                 archive.addfile(member, io.BytesIO(payload))
@@ -290,7 +290,7 @@ class DistributionGuardTests(unittest.TestCase):
                 archive_path = root / f"compressed-{index}.tar"
                 with tarfile.open(archive_path, mode) as archive:
                     member = tarfile.TarInfo(
-                        "decision_evidence_ledger-0.1.0/README.md"
+                        "decision_evidence_ledger-0.2.0/README.md"
                     )
                     member.size = len(payload)
                     archive.addfile(member, io.BytesIO(payload))
@@ -302,7 +302,7 @@ class DistributionGuardTests(unittest.TestCase):
         format_specific_names = (
             "decision_evidence_ledger/__init__.py",
             "PKG-INFO",
-            "decision_evidence_ledger-0.1.0.dist-info/METADATA",
+            "decision_evidence_ledger-0.2.0.dist-info/METADATA",
         )
         with tempfile.TemporaryDirectory() as directory:
             for index, name in enumerate(format_specific_names):
@@ -316,7 +316,7 @@ class DistributionGuardTests(unittest.TestCase):
             ("README.md", "NOT_ALLOWLISTED"),
             ("PKG-INFO", "NOT_ALLOWLISTED"),
             (
-                "decision_evidence_ledger-0.2.0.dist-info/METADATA",
+                "decision_evidence_ledger-0.3.0.dist-info/METADATA",
                 "INVALID_WHEEL_DIST_INFO",
             ),
         )
@@ -330,7 +330,7 @@ class DistributionGuardTests(unittest.TestCase):
                         "SYNTHETIC = True\n",
                     )
                     archive.writestr(
-                        "decision_evidence_ledger-0.1.0.dist-info/METADATA",
+                        "decision_evidence_ledger-0.2.0.dist-info/METADATA",
                         "Name: decision-evidence-ledger\n",
                     )
                     archive.writestr(extra_name, "SYNTHETIC\n")
@@ -342,7 +342,7 @@ class DistributionGuardTests(unittest.TestCase):
             archive_path = Path(directory, "sdist-shaped.zip")
             with zipfile.ZipFile(archive_path, "w") as archive:
                 archive.writestr(
-                    "decision_evidence_ledger-0.1.0/README.md",
+                    "decision_evidence_ledger-0.2.0/README.md",
                     "SYNTHETIC\n",
                 )
             result = guard.scan_path(archive_path)
@@ -353,14 +353,14 @@ class DistributionGuardTests(unittest.TestCase):
         cases = (
             ("README.md", "INVALID_SDIST_ROOT"),
             (
-                "decision_evidence_ledger-0.1.0/decision_evidence_ledger/__init__.py",
+                "decision_evidence_ledger-0.2.0/decision_evidence_ledger/__init__.py",
                 "NOT_ALLOWLISTED",
             ),
             (
-                "decision_evidence_ledger-0.1.0/.gitignore",
+                "decision_evidence_ledger-0.2.0/.gitignore",
                 "NOT_ALLOWLISTED",
             ),
-            ("decision_evidence_ledger-0.1.0", "INVALID_SDIST_ROOT"),
+            ("decision_evidence_ledger-0.2.0", "INVALID_SDIST_ROOT"),
         )
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -380,8 +380,8 @@ class DistributionGuardTests(unittest.TestCase):
             payload = b"SYNTHETIC\n"
             with tarfile.open(archive_path, "w") as archive:
                 for name in (
-                    "decision_evidence_ledger-0.1.0/README.md",
-                    "decision_evidence_ledger-0.2.0/LICENSE",
+                    "decision_evidence_ledger-0.2.0/README.md",
+                    "decision_evidence_ledger-0.3.0/LICENSE",
                 ):
                     member = tarfile.TarInfo(name)
                     member.size = len(payload)
@@ -504,7 +504,7 @@ class DistributionGuardTests(unittest.TestCase):
                     "SYNTHETIC\n",
                 )
                 archive.writestr(
-                    "decision_evidence_ledger-0.1.0.dist-info/METADATA",
+                    "decision_evidence_ledger-0.2.0.dist-info/METADATA",
                     "SYNTHETIC\n",
                 )
             with mock.patch.object(guard, "MAX_MEMBERS", 1):
@@ -517,7 +517,7 @@ class DistributionGuardTests(unittest.TestCase):
                     "S" * 33,
                 )
                 archive.writestr(
-                    "decision_evidence_ledger-0.1.0.dist-info/METADATA",
+                    "decision_evidence_ledger-0.2.0.dist-info/METADATA",
                     "SYNTHETIC\n",
                 )
             with mock.patch.object(guard, "MAX_MEMBER_BYTES", 32):
@@ -534,7 +534,7 @@ class DistributionGuardTests(unittest.TestCase):
                     "S" * 12,
                 )
                 archive.writestr(
-                    "decision_evidence_ledger-0.1.0.dist-info/METADATA",
+                    "decision_evidence_ledger-0.2.0.dist-info/METADATA",
                     "SYNTHETIC\n",
                 )
             with mock.patch.object(guard, "MAX_TOTAL_BYTES", 20):
@@ -550,8 +550,8 @@ class DistributionGuardTests(unittest.TestCase):
             payload = b"SYNTHETIC\n"
             with tarfile.open(archive_path, "w:gz") as archive:
                 for name in (
-                    "decision_evidence_ledger-0.1.0/README.md",
-                    "decision_evidence_ledger-0.1.0/LICENSE",
+                    "decision_evidence_ledger-0.2.0/README.md",
+                    "decision_evidence_ledger-0.2.0/LICENSE",
                 ):
                     member = tarfile.TarInfo(name)
                     member.size = len(payload)
@@ -571,7 +571,7 @@ class DistributionGuardTests(unittest.TestCase):
             payload = b"SYNTHETIC\n"
             with tarfile.open(archive_path, "w:gz", format=tarfile.PAX_FORMAT) as archive:
                 member = tarfile.TarInfo(
-                    "decision_evidence_ledger-0.1.0/README.md"
+                    "decision_evidence_ledger-0.2.0/README.md"
                 )
                 member.pax_headers = {"comment": "S" * 8192}
                 member.size = len(payload)
@@ -592,7 +592,7 @@ class DistributionGuardTests(unittest.TestCase):
             with tarfile.open(archive_path, "w") as archive:
                 for payload in (b"SYNTHETIC\n", b"S" * 33):
                     member = tarfile.TarInfo(
-                        "decision_evidence_ledger-0.1.0/README.md"
+                        "decision_evidence_ledger-0.2.0/README.md"
                     )
                     member.size = len(payload)
                     archive.addfile(member, io.BytesIO(payload))
@@ -608,7 +608,7 @@ class DistributionGuardTests(unittest.TestCase):
             with tarfile.open(archive_path, "w") as archive:
                 payload = b"S" * 33
                 member = tarfile.TarInfo(
-                    "decision_evidence_ledger-0.1.0/SYNTHETIC-link"
+                    "decision_evidence_ledger-0.2.0/SYNTHETIC-link"
                 )
                 member.type = tarfile.SYMTYPE
                 member.linkname = "SYNTHETIC-target"
@@ -616,7 +616,7 @@ class DistributionGuardTests(unittest.TestCase):
                 archive.addfile(member, io.BytesIO(payload))
                 control = b"SYNTHETIC\n"
                 member = tarfile.TarInfo(
-                    "decision_evidence_ledger-0.1.0/README.md"
+                    "decision_evidence_ledger-0.2.0/README.md"
                 )
                 member.size = len(control)
                 archive.addfile(member, io.BytesIO(control))
@@ -635,7 +635,7 @@ class DistributionGuardTests(unittest.TestCase):
                     "SYNTHETIC\n",
                 )
                 archive.writestr(
-                    "decision_evidence_ledger-0.1.0.dist-info/METADATA",
+                    "decision_evidence_ledger-0.2.0.dist-info/METADATA",
                     "SYNTHETIC\n",
                 )
             contents = bytearray(archive_path.read_bytes())
@@ -660,7 +660,7 @@ class DistributionGuardTests(unittest.TestCase):
                     "SYNTHETIC\n",
                 )
                 archive.writestr(
-                    "decision_evidence_ledger-0.1.0.dist-info/METADATA",
+                    "decision_evidence_ledger-0.2.0.dist-info/METADATA",
                     "SYNTHETIC\n",
                 )
             contents = bytearray(archive_path.read_bytes())

@@ -2,10 +2,9 @@
 
 ## Current support status
 
-Version `0.1.0` is prepared as the first GitHub source-release version. The
-`v0.1.0` tag and hosted GitHub source release are authorized, but this local
-preparation does not create them. No package-index publication, private
-security-support channel, response time, or remediation deadline is promised.
+Version `0.2.0` is the current GitHub source-release version. No package-index
+publication, private security-support channel, response time, or remediation
+deadline is promised.
 
 The project does not currently offer a private reporting route. A public GitHub
 Issue may be used only for a nonsensitive report that contains no secret,

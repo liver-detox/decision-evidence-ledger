@@ -4,6 +4,6 @@ title: Decision Evidence Ledger
 type: software
 authors:
   - alias: liver-detox
-version: 0.1.0
+version: 0.2.0
 license: Apache-2.0
 abstract: Digest-only, local evidence envelopes and lifecycle/chain consistency checks.
