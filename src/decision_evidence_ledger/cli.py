@@ -20,8 +20,26 @@ from .ledger import verify_chain
 _TIMESTAMP = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}Z$")
 
 
+_MISSING_REQUIRED_PREFIX = "the following arguments are required: "
+_REQUIRED_OPTIONS = frozenset(
+    {
+        "--envelope",
+        "--event-id",
+        "--event-type",
+        "--ledger",
+        "--operation",
+        "--payload",
+        "--recorded-at",
+        "--subject-id",
+    }
+)
+
+
 class _ArgumentFailure(Exception):
     """Raised instead of allowing argparse to print an unsafe diagnostic."""
+
+    def __init__(self, missing_options: tuple[str, ...] = ()) -> None:
+        self.missing_options = missing_options
 
 
 class _SafeParser(argparse.ArgumentParser):
@@ -30,7 +48,13 @@ class _SafeParser(argparse.ArgumentParser):
         super().__init__(*args, **kwargs)
 
     def error(self, message: str) -> None:
-        raise _ArgumentFailure
+        missing_options: tuple[str, ...] = ()
+        if message.startswith(_MISSING_REQUIRED_PREFIX):
+            names = message.removeprefix(_MISSING_REQUIRED_PREFIX).split(", ")
+            missing_options = tuple(
+                name for name in names if name in _REQUIRED_OPTIONS
+            )
+        raise _ArgumentFailure(missing_options)
 
 
 class _SingleSource(argparse.Action):
@@ -52,9 +76,33 @@ def _emit(value: dict[str, object]) -> None:
     print(json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")))
 
 
-def _failure(code: str) -> int:
-    _emit({"codes": [code], "ok": False})
+_COMMAND_MESSAGES = {
+    "seal": (
+        "For seal, provide --event-id, --event-type, --subject-id, --operation, "
+        "--recorded-at, and --payload."
+    ),
+    "verify-envelope": "For verify-envelope, provide --envelope.",
+    "verify-chain": "For verify-chain, provide --ledger.",
+}
+
+
+def _failure(code: str, message: str) -> int:
+    """Emit a fixed diagnostic without exposing caller-controlled text."""
+    _emit({"codes": [code], "message": message, "ok": False})
     return 2
+
+
+def _argument_message(
+    argv: Sequence[str] | None, failure: _ArgumentFailure | None = None
+) -> str:
+    """Return a static help message without reusing argparse's raw diagnostic."""
+    if failure is not None and failure.missing_options:
+        label = "option" if len(failure.missing_options) == 1 else "options"
+        return f"Missing required {label}: {', '.join(failure.missing_options)}."
+    values = tuple(sys.argv[1:] if argv is None else argv)
+    if values and values[0] in _COMMAND_MESSAGES:
+        return _COMMAND_MESSAGES[values[0]]
+    return "Use one of: seal, verify-envelope, or verify-chain."
 
 
 def _json_object(pairs: list[tuple[str, object]]) -> dict[str, object]:
@@ -200,9 +248,19 @@ def _ambiguous_stdin(args: argparse.Namespace) -> bool:
 def _seal(args: argparse.Namespace) -> int:
     try:
         payload = _load_json(args.payload)
+    except ValueError:
+        return _failure("INVALID_INPUT", "Check JSON supplied to --payload.")
+    try:
         metadata = {} if args.metadata is None else _load_json(args.metadata)
     except ValueError:
-        return _failure("INVALID_INPUT")
+        return _failure("INVALID_INPUT", "Check JSON supplied to --metadata.")
+    try:
+        recorded_at = _timestamp(args.recorded_at)
+    except ValueError:
+        return _failure(
+            "INVALID_ARGUMENTS",
+            "Use --recorded-at in YYYY-MM-DDTHH:MM:SS.ffffffZ UTC format.",
+        )
     try:
         envelope = create_event(
             event_id=args.event_id,
@@ -210,13 +268,13 @@ def _seal(args: argparse.Namespace) -> int:
             subject_id=args.subject_id,
             operation=args.operation,
             supersedes_event_id=args.supersedes_event_id,
-            recorded_at=_timestamp(args.recorded_at),
+            recorded_at=recorded_at,
             payload=payload,
             metadata=metadata,
             previous_envelope_sha256=args.previous_envelope_sha256,
         )
     except Exception:
-        return _failure("INVALID_ARGUMENTS")
+        return _failure("INVALID_ARGUMENTS", "Check the allowed seal option values.")
     _emit({"envelope": envelope.to_dict(), "ok": True})
     return 0
 
@@ -224,10 +282,16 @@ def _seal(args: argparse.Namespace) -> int:
 def _verify_envelope(args: argparse.Namespace) -> int:
     try:
         envelope = _envelope(_load_json(args.envelope))
+    except ValueError:
+        return _failure("INVALID_INPUT", "Check JSON supplied to --envelope.")
+    try:
         payload = _load_json(args.payload) if args.payload is not None else None
+    except ValueError:
+        return _failure("INVALID_INPUT", "Check JSON supplied to --payload.")
+    try:
         metadata = _load_json(args.metadata) if args.metadata is not None else None
     except ValueError:
-        return _failure("INVALID_INPUT")
+        return _failure("INVALID_INPUT", "Check JSON supplied to --metadata.")
     try:
         kwargs: dict[str, object] = {}
         if args.payload is not None:
@@ -236,29 +300,49 @@ def _verify_envelope(args: argparse.Namespace) -> int:
             kwargs["metadata"] = metadata
         result = verify_envelope(envelope, **kwargs)
     except Exception:
-        return _failure("INVALID_INPUT")
-    _emit({"codes": list(result.codes), "ok": result.ok})
-    return 0 if result.ok else 2
+        return _failure("INVALID_INPUT", "Check JSON supplied to --envelope.")
+    if result.ok:
+        _emit({"codes": list(result.codes), "ok": True})
+        return 0
+    _emit(
+        {
+            "codes": list(result.codes),
+            "message": "Verification failed; inspect codes.",
+            "ok": False,
+        }
+    )
+    return 2
 
 
 def _verify_chain(args: argparse.Namespace) -> int:
     try:
         entries = tuple(_envelope(value) for value in _load_jsonl(args.ledger))
     except ValueError:
-        return _failure("INVALID_INPUT")
+        return _failure("INVALID_INPUT", "Check JSON Lines supplied to --ledger.")
     try:
         result = verify_chain(entries)
     except Exception:
-        return _failure("INVALID_INPUT")
+        return _failure("INVALID_INPUT", "Check JSON Lines supplied to --ledger.")
+    if result.ok:
+        _emit(
+            {
+                "codes": list(result.codes),
+                "event_count": result.event_count,
+                "head_digest": result.head_digest,
+                "ok": True,
+            }
+        )
+        return 0
     _emit(
         {
             "codes": list(result.codes),
             "event_count": result.event_count,
             "head_digest": result.head_digest,
-            "ok": result.ok,
+            "message": "Verification failed; inspect codes.",
+            "ok": False,
         }
     )
-    return 0 if result.ok else 2
+    return 2
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -266,19 +350,22 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser = _parser()
     try:
         args = parser.parse_args(argv)
-    except _ArgumentFailure:
-        return _failure("INVALID_ARGUMENTS")
+    except _ArgumentFailure as failure:
+        return _failure("INVALID_ARGUMENTS", _argument_message(argv, failure))
     except SystemExit as error:
-        return 0 if error.code == 0 else _failure("INVALID_ARGUMENTS")
+        return 0 if error.code == 0 else _failure("INVALID_ARGUMENTS", _argument_message(argv))
     if _ambiguous_stdin(args):
-        return _failure("INVALID_ARGUMENTS")
+        return _failure(
+            "INVALID_ARGUMENTS",
+            "Use standard input for only one known JSON option.",
+        )
     if args.command == "seal":
         return _seal(args)
     if args.command == "verify-envelope":
         return _verify_envelope(args)
     if args.command == "verify-chain":
         return _verify_chain(args)
-    return _failure("INVALID_ARGUMENTS")
+    return _failure("INVALID_ARGUMENTS", "Use one of: seal, verify-envelope, or verify-chain.")
 
 
 if __name__ == "__main__":

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from contextlib import redirect_stdout
+import io
 import json
 import os
 from pathlib import Path
@@ -10,6 +12,9 @@ import sys
 import tempfile
 import tomllib
 import unittest
+from unittest.mock import patch
+
+from decision_evidence_ledger.cli import main
 
 
 PYTHON = sys.executable
@@ -51,7 +56,11 @@ class CliTests(unittest.TestCase):
         self.assertEqual(result.stderr, "")
         self.assertEqual(result.stdout.count("\n"), 1)
         self.assertTrue(result.stdout.endswith("\n"))
-        return json.loads(result.stdout)
+        value = json.loads(result.stdout)
+        if not value["ok"]:
+            self.assertIsInstance(value.get("message"), str)
+            value.pop("message")
+        return value
 
     def seal(
         self, payload_path: str, *extra: str, input_text: str | None = None
@@ -203,6 +212,81 @@ class CliTests(unittest.TestCase):
                 self.assertEqual(result.returncode, 2)
                 self.assertEqual(self.response(result), {"codes": ["INVALID_ARGUMENTS"], "ok": False})
                 self.assertNotIn("Traceback", result.stdout + result.stderr)
+
+    def test_failure_messages_are_fixed_actionable_and_secret_safe(self):
+        """Fails if diagnostics lose their command guidance or expose caller values."""
+        marker = "SYNTHETIC-PRIVATE-MESSAGE-MARKER-24b9"
+        cases = (
+            (
+                self.run_cli("seal"),
+                {
+                    "codes": ["INVALID_ARGUMENTS"],
+                    "message": (
+                        "Missing required options: --event-id, --event-type, --subject-id, "
+                        "--operation, --recorded-at, --payload."
+                    ),
+                    "ok": False,
+                },
+            ),
+            (
+                self.run_cli("verify-envelope", "--envelope", f"/missing/{marker}.json"),
+                {
+                    "codes": ["INVALID_INPUT"],
+                    "message": "Check JSON supplied to --envelope.",
+                    "ok": False,
+                },
+            ),
+            (
+                self.seal("-", "--recorded-at", marker, input_text='{"SYNTHETIC":1}'),
+                {
+                    "codes": ["INVALID_ARGUMENTS"],
+                    "message": "Use --recorded-at in YYYY-MM-DDTHH:MM:SS.ffffffZ UTC format.",
+                    "ok": False,
+                },
+            ),
+        )
+        for result, expected in cases:
+            with self.subTest(expected=expected["codes"]):
+                self.assertEqual(result.returncode, 2)
+                self.assertEqual(json.loads(result.stdout), expected)
+                self.assertNotIn(marker, result.stdout + result.stderr)
+
+    def test_missing_payload_message_is_precise_and_does_not_echo_other_values(self):
+        """Fails if a missing known option is confused with an untrusted parser error."""
+        marker = "SYNTHETIC-PRIVATE-MISSING-PAYLOAD-MARKER-74df"
+        result = self.run_cli("seal", *BASE, "--metadata", marker)
+
+        self.assertEqual(result.returncode, 2)
+        self.assertEqual(
+            json.loads(result.stdout),
+            {
+                "codes": ["INVALID_ARGUMENTS"],
+                "message": "Missing required option: --payload.",
+                "ok": False,
+            },
+        )
+        self.assertNotIn(marker, result.stdout + result.stderr)
+
+    def test_nonzero_parser_exit_keeps_safe_json(self):
+        """Fails if an alternate parser exit bypasses safe error handling."""
+        marker = "SYNTHETIC-PRIVATE-EXIT-MARKER"
+        output = io.StringIO()
+        with patch(
+            "decision_evidence_ledger.cli._SafeParser.parse_args",
+            side_effect=SystemExit(2),
+        ), redirect_stdout(output):
+            status = main([marker])
+
+        self.assertEqual(status, 2)
+        self.assertEqual(
+            json.loads(output.getvalue()),
+            {
+                "codes": ["INVALID_ARGUMENTS"],
+                "message": "Use one of: seal, verify-envelope, or verify-chain.",
+                "ok": False,
+            },
+        )
+        self.assertNotIn(marker, output.getvalue())
 
     def test_help_exits_zero(self):
         """Fails if standard help cannot be requested without a command error."""

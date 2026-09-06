@@ -5,13 +5,13 @@ fresh evidence, not assumption.
 
 ## Current authorization boundary
 
-- [x] Explicit authorization to create the public GitHub source repository and
-  push the reviewed source history has been received.
-- [x] Separate authorization to create the `v0.2.0` tag and hosted GitHub
+- [x] Explicit authorization to push the reviewed `v0.2.1` source history has
+  been received.
+- [x] Separate authorization to create the `v0.2.1` tag and hosted GitHub
   source release has been received.
 - [ ] Package-index upload authorization has been received.
 
-Only the `v0.2.0` GitHub source release is authorized. Do not upload to a package
+Only the `v0.2.1` GitHub source release is authorized. Do not upload to a package
 index under this authorization.
 
 ## Ownership and identity
@@ -62,7 +62,7 @@ repository and release identifiers.
 - [x] The approved local CI configuration covers Python 3.11, 3.12, 3.13, and
   3.14 with a read-only token, no configured secrets, uploads, cache, or
   deployment steps.
-- [ ] The `v0.2.0` release commit passes hosted CI on every configured Python
+- [ ] The `v0.2.1` release commit passes hosted CI on every configured Python
   version; this cannot be claimed until the release commit is pushed.
 - [x] Before the release push, the workflow's fixed Git archive step is run for
   the release candidate and provenance confirms 39 ordinary project members.
@@ -100,9 +100,9 @@ server and requires the source-publication authorization recorded above.
 - [x] The release push is independently reviewed immediately before execution.
 - [ ] Branch protection and workflow review ownership (for example CODEOWNERS)
   are not currently provided or configured.
-- [x] Version `0.2.0` is synchronized in package metadata and the importable
+- [x] Version `0.2.1` is synchronized in package metadata and the importable
   package.
-- [ ] The authorized `v0.2.0` tag points to the approved commit and the hosted
+- [ ] The authorized `v0.2.1` tag points to the approved commit and the hosted
   GitHub source release is created and reviewed.
 - [ ] Package-index upload receives separate authorization.
 - [x] Public claims about users, downloads, adoption, maintenance, or ecosystem

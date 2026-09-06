@@ -2,6 +2,20 @@
 
 This file records user-visible project changes.
 
+## 0.2.1 — clearer safe recovery from local command failures
+
+### What users can do now
+
+- Receive a short, actionable JSON `message` alongside the existing failure
+  code when a required command option is missing, a named JSON input cannot be
+  read or parsed, the ledger input is not valid JSON Lines, or `--recorded-at`
+  has the wrong format.
+- Keep using the same success JSON, diagnostic codes, and exit statuses in
+  scripts; messages use only fixed command names, option names, and input
+  categories, never supplied values, paths, payloads, or exception text.
+
+The runtime schema and verification rules are unchanged from `0.2.0`.
+
 ## 0.2.0 — clearer first run and reproducible lifecycle
 
 ### What users can do now

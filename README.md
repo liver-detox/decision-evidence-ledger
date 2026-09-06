@@ -63,10 +63,15 @@ the synthetic lifecycle walkthrough, see [the examples](examples/README.md);
 run each command with `--help` to inspect its inputs. Maintainers preparing an
 installation or release candidate should use [the local release guide](docs/LOCAL_RELEASE_GUIDE.md).
 
+On a CLI failure, the JSON result also includes a short fixed `message` that
+names only a command, known option, or input category. It never repeats a
+supplied value, path, payload, or exception; use the stable `codes` field for
+automation.
+
 ## Project status
 
-The current version is `v0.2.0`, available as a GitHub source release. There
-is no package-index release.
+The current version is `v0.2.1`, available as a GitHub source release. There is
+no package-index release.
 
 Maintainer docs: [local release guide](docs/LOCAL_RELEASE_GUIDE.md),
 [checklist](RELEASE_CHECKLIST.md), and [security policy](SECURITY.md).

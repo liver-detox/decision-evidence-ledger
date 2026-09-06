@@ -2,7 +2,7 @@
 
 ## Current support status
 
-Version `0.2.0` is the current GitHub source-release version. No package-index
+Version `0.2.1` is the current GitHub source-release version. No package-index
 publication, private security-support channel, response time, or remediation
 deadline is promised.
 
